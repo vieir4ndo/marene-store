@@ -13,5 +13,18 @@ namespace MareneStore.Domain.Entities
         public bool IsActive { get; set; }
         public string ImageUrl { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+
+        protected Product() { }
+
+        public Product(string name, string description, decimal price, int stock, bool isActive, string imageUrl)
+        {
+            Id = Guid.NewGuid();
+            Name = name;
+            Description = description;
+            Price = price;
+            Stock = stock;
+            IsActive = isActive;
+            ImageUrl = imageUrl;
+        }
     }
 }

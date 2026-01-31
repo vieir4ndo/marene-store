@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using MareneStore.Application;
+using MareneStore.Infrastructure.Data;
+using Microsoft.Extensions.DependencyInjection;
 using System.Web.Http;
 
 namespace MareneStore.Api
@@ -9,11 +9,16 @@ namespace MareneStore.Api
     {
         public static void Register(HttpConfiguration config)
         {
-            // Web API configuration and services
+            var services = new ServiceCollection();
 
-            // Web API routes
+            services.AddApplication()
+                .AddInfrastructureData();
+
+            var serviceProvider = services.BuildServiceProvider();
+
+            config.DependencyResolver = new DefaultDependencyResolver(serviceProvider);
+
             config.MapHttpAttributeRoutes();
-
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
@@ -22,3 +27,4 @@ namespace MareneStore.Api
         }
     }
 }
+
