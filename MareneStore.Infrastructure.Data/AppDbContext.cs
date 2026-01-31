@@ -1,8 +1,9 @@
 ﻿using MareneStore.Domain.Entities;
+using MareneStore.Infrastructure.Data.Configurators;
 using MySql.Data.EntityFramework;
 using System;
+using System.Configuration;
 using System.Data.Entity;
-using MareneStore.Infrastructure.Data.Configurators;
 
 namespace MareneStore.Infrastructure.Data
 {
@@ -10,7 +11,7 @@ namespace MareneStore.Infrastructure.Data
     public class AppDbContext : DbContext
     {
         public AppDbContext()
-            : base("DefaultConnection")
+            : base(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString)
         {
         }
 
