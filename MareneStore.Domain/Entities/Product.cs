@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace MareneStore.Domain.Entities
 {
@@ -11,5 +12,6 @@ namespace MareneStore.Domain.Entities
         public int Stock { get; set; }
         public bool IsActive { get; set; }
         public string ImageUrl { get; set; }
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }

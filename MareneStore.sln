@@ -1,9 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36327.8 d17.14
+VisualStudioVersion = 17.14.36327.8
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MareneStore.Web", "MareneStore.Web\MareneStore.Web.csproj", "{FFCEFE4E-04B4-4241-A512-301BF0FB49C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MareneStore.Api", "MareneStore.Api\MareneStore.Api.csproj", "{26376C97-F2E8-457C-AB44-2EB7F0B90200}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MareneStore.Application", "MareneStore.Application\MareneStore.Application.csproj", "{3904766C-A613-4B2F-A87F-E8823AA646E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MareneStore.Domain", "MareneStore.Domain\MareneStore.Domain.csproj", "{9978DB81-C1D2-4055-BF71-812A44E68D1A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MareneStore.Infrastructure.Data", "MareneStore.Infrastructure.Data\MareneStore.Infrastructure.Data.csproj", "{7DFEE717-EC8A-4DBA-A16D-10E0258CB2B0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +23,22 @@ Global
 		{FFCEFE4E-04B4-4241-A512-301BF0FB49C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FFCEFE4E-04B4-4241-A512-301BF0FB49C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FFCEFE4E-04B4-4241-A512-301BF0FB49C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26376C97-F2E8-457C-AB44-2EB7F0B90200}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26376C97-F2E8-457C-AB44-2EB7F0B90200}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26376C97-F2E8-457C-AB44-2EB7F0B90200}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26376C97-F2E8-457C-AB44-2EB7F0B90200}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3904766C-A613-4B2F-A87F-E8823AA646E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3904766C-A613-4B2F-A87F-E8823AA646E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3904766C-A613-4B2F-A87F-E8823AA646E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3904766C-A613-4B2F-A87F-E8823AA646E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9978DB81-C1D2-4055-BF71-812A44E68D1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9978DB81-C1D2-4055-BF71-812A44E68D1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9978DB81-C1D2-4055-BF71-812A44E68D1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9978DB81-C1D2-4055-BF71-812A44E68D1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DFEE717-EC8A-4DBA-A16D-10E0258CB2B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DFEE717-EC8A-4DBA-A16D-10E0258CB2B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DFEE717-EC8A-4DBA-A16D-10E0258CB2B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DFEE717-EC8A-4DBA-A16D-10E0258CB2B0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
