@@ -11,8 +11,10 @@ namespace MareneStore.Api
         {
             var services = new ServiceCollection();
 
-            services.AddApplication()
-                .AddInfrastructureData();
+            services
+               .AddControllers()
+               .AddApplication()
+               .AddInfrastructureData();
 
             var serviceProvider = services.BuildServiceProvider();
 
@@ -20,9 +22,13 @@ namespace MareneStore.Api
 
             config.MapHttpAttributeRoutes();
             config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
+                  name: "MareneStoreApi",
+                routeTemplate: "api/v{version}/{controller}/{id}",
+                defaults: new
+                {
+                    version = "1",
+                    id = RouteParameter.Optional
+                }
             );
         }
     }

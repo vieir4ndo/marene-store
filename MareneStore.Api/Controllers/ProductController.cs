@@ -17,7 +17,7 @@ namespace MareneStore.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IHttpActionResult> CreateProduct(ProductRequest request)
+        public async Task<IHttpActionResult> CreateProduct([FromBody]ProductRequest request)
         {
             var validationResult = request.Validate();
             if (!validationResult.IsValid)
@@ -32,18 +32,22 @@ namespace MareneStore.Api.Controllers
 
         // GET api/products
         [HttpGet]
-        public IHttpActionResult GetAllProducts()
+        public async Task<IHttpActionResult> GetAllProducts()
         {
             // Implementation to retrieve all products
-            return Ok();
+            //TODO: Add pagination
+            var products = await _productService.GetAll();
+            return Ok(products);
         }
         // GET api/products/{id}
         [HttpGet]
         [Route("{id:guid}")]
-        public IHttpActionResult GetProductById(Guid id)
+        public async Task<IHttpActionResult> GetProductById(Guid id)
         {
             // Implementation to retrieve a product by its ID
-            return Ok();
+            //TODO: Handle not found
+            var product = await _productService.GetById(id);
+            return Ok(product);
         }
     }
 }

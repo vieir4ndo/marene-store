@@ -2,6 +2,8 @@
 using MareneStore.Application.Interfaces;
 using MareneStore.Domain.Entities;
 using MareneStore.Infrastructure.Data.Interfaces;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace MareneStore.Application.Services
@@ -29,6 +31,27 @@ namespace MareneStore.Application.Services
             var createdProduct = await _productRepository.AddAsync(productEntity);
 
             return ProductDto.FromEntity(createdProduct);
+        }
+
+        public async Task<List<ProductDto>> GetAll()
+        {
+            var products = await _productRepository.GetAllAsync();
+
+            var outputProducts = new List<ProductDto>();
+
+            foreach (var product in products)
+            {
+                outputProducts.Add(ProductDto.FromEntity(product));
+            }
+
+            return outputProducts;
+        }
+
+        public async Task<ProductDto> GetById(Guid id)
+        {
+            var product = await _productRepository.GetByIdAsync(id);
+
+            return ProductDto.FromEntity(product);
         }
     }
 }

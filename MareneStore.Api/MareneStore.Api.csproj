@@ -119,6 +119,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Registrations.cs" />
     <Compile Include="Requests\ProductRequest.cs" />
     <Compile Include="Validators\ProductRequestValidator.cs" />
   </ItemGroup>

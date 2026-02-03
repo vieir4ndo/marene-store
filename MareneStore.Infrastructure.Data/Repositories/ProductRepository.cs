@@ -25,7 +25,7 @@ namespace MareneStore.Infrastructure.Data.Repositories
             return await _dbSet.ToListAsync();
         }
 
-        public async Task<Product> GetByIdAsync(int id)
+        public async Task<Product> GetByIdAsync(Guid id)
         {
             return await _dbSet.FindAsync(id);
         }
