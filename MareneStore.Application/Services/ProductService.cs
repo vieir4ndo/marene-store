@@ -23,9 +23,9 @@ namespace MareneStore.Application.Services
             var productEntity = new Product(
                 product.Name,
                 product.Description,
-                product.Price,
-                product.Stock,
-                product.IsActive,
+                product.Price.Value,
+                product.Stock.Value,
+                product.IsActive.Value,
                 product.ImageUrl
             );
 
@@ -58,6 +58,38 @@ namespace MareneStore.Application.Services
             }
 
             return ProductDto.FromEntity(product);
+        }
+
+        public async Task<ProductDto> UpdateProductAsync(ProductDto product)
+        {
+            var productEntity = await _productRepository.GetByIdAsync(product.Id);
+
+            if (product == null)
+            {
+                throw new NotFoundException();
+            }
+
+            productEntity.Name = product.Name ?? productEntity.Name;
+            productEntity.Description = product.Description ?? productEntity.Description;
+            if (product.Price.HasValue && product.Price >= 0)
+            {
+                productEntity.Price = product.Price.Value;
+            }
+            if (product.Stock.HasValue && product.Stock >= 0)
+            {
+                productEntity.Stock = product.Stock.Value;
+            }
+            if (product.IsActive != null)
+            {
+                productEntity.IsActive = product.IsActive.Value;
+            }
+            productEntity.ImageUrl = product.ImageUrl ?? productEntity.ImageUrl;
+
+            _productRepository.Update(productEntity);
+            await _productRepository.SaveChangesAsync();
+
+
+            return ProductDto.FromEntity(productEntity);
         }
     }
 }

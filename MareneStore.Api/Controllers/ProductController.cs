@@ -1,4 +1,5 @@
 ﻿using MareneStore.Api.Requests;
+using MareneStore.Api.Responses;
 using MareneStore.Application.Interfaces;
 using System;
 using System.Threading.Tasks;
@@ -20,10 +21,10 @@ namespace MareneStore.Api.Controllers
         [Route("")]
         public async Task<IHttpActionResult> CreateProduct([FromBody] ProductRequest request)
         {
-            request.Validate();
+            request.ValidateCreation();
 
             var product = await _productService.CreateProductAsync(request.ToDto());
-            return Ok(product);
+            return Ok(ApiResponse.CreateSuccess(product));
         }
 
         [HttpGet]
@@ -31,7 +32,7 @@ namespace MareneStore.Api.Controllers
         public async Task<IHttpActionResult> GetAllProducts()
         {
             var products = await _productService.GetAll();
-            return Ok(products);
+            return Ok(ApiResponse.CreateSuccess(products));
         }
 
         [HttpGet]
@@ -39,7 +40,18 @@ namespace MareneStore.Api.Controllers
         public async Task<IHttpActionResult> GetProductById(Guid id)
         {
             var product = await _productService.GetById(id);
-            return Ok(product);
+            return Ok(ApiResponse.CreateSuccess(product));
+        }
+
+        [HttpPatch]
+        [Route("{id}")]
+        public async Task<IHttpActionResult> UpdateProduct(Guid id, [FromBody] ProductRequest request)
+        {
+            request.ValidateUpdate();
+            var productDto = request.ToDto();
+            productDto.Id = id;
+            var updatedProduct = await _productService.UpdateProductAsync(productDto);
+            return Ok(ApiResponse.CreateSuccess(updatedProduct));
         }
     }
 

@@ -12,5 +12,25 @@ namespace MareneStore.Api.Responses
         {
             return Newtonsoft.Json.JsonConvert.SerializeObject(this);
         }
+
+        public static ApiResponse CreateSuccess(object data)
+        {
+            return new ApiResponse()
+            {
+                Success = true,
+                Data = data,
+                Errors = null
+            };
+        }
+
+        public static ApiResponse CreateError(List<string> errors)
+        {
+            return new ApiResponse()
+            {
+                Success = false,
+                Data = null,
+                Errors = errors
+            };
+        }
     }
 }

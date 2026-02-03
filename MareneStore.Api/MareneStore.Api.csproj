@@ -123,7 +123,8 @@
     <Compile Include="Registrations.cs" />
     <Compile Include="Requests\ProductRequest.cs" />
     <Compile Include="Responses\ApiResponse.cs" />
-    <Compile Include="Validators\ProductRequestValidator.cs" />
+    <Compile Include="Validators\CreateProductRequestValidator.cs" />
+    <Compile Include="Validators\UpdateProductRequestValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -3,9 +3,9 @@ using MareneStore.Api.Requests;
 
 namespace MareneStore.Api.Validators
 {
-    public class ProductRequestValidator : AbstractValidator<ProductRequest>
+    public class CreateProductRequestValidator : AbstractValidator<ProductRequest>
     {
-        public ProductRequestValidator()
+        public CreateProductRequestValidator()
         {
             RuleFor(x => x.Name)
                 .NotEmpty()

@@ -10,5 +10,6 @@ namespace MareneStore.Application.Interfaces
         Task<ProductDto> CreateProductAsync(ProductDto product);
         Task<ProductDto> GetById(Guid id);
         Task<List<ProductDto>> GetAll();
+        Task<ProductDto> UpdateProductAsync(ProductDto product);
     }
 }

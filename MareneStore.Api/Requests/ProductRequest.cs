@@ -1,5 +1,4 @@
-﻿using FluentValidation.Results;
-using MareneStore.Api.Validators;
+﻿using MareneStore.Api.Validators;
 using MareneStore.Application.Dtos;
 using System.Linq;
 
@@ -9,9 +8,9 @@ namespace MareneStore.Api.Requests
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public decimal Price { get; set; }
-        public int Stock { get; set; }
-        public bool IsActive { get; set; }
+        public decimal? Price { get; set; }
+        public int? Stock { get; set; }
+        public bool? IsActive { get; set; }
         public string ImageUrl { get; set; }
 
         public ProductDto ToDto()
@@ -27,9 +26,19 @@ namespace MareneStore.Api.Requests
             };
         }
 
-        public void Validate()
+        public void ValidateCreation()
         {
-            var validationResult = new ProductRequestValidator().Validate(this);
+            var validationResult = new CreateProductRequestValidator().Validate(this);
+            if (!validationResult.IsValid)
+            {
+                var errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
+                throw new Domain.Exceptions.ValidationException(errors);
+            }
+        }
+
+        public void ValidateUpdate()
+        {
+            var validationResult = new UpdateProductRequestValidator().Validate(this);
             if (!validationResult.IsValid)
             {
                 var errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
