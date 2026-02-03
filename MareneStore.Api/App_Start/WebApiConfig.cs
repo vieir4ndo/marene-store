@@ -1,4 +1,5 @@
-﻿using MareneStore.Application;
+﻿using MareneStore.Api.App_Start;
+using MareneStore.Application;
 using MareneStore.Infrastructure.Data;
 using Microsoft.Extensions.DependencyInjection;
 using System.Web.Http;
@@ -19,14 +20,13 @@ namespace MareneStore.Api
             var serviceProvider = services.BuildServiceProvider();
 
             config.DependencyResolver = new DefaultDependencyResolver(serviceProvider);
-
+            config.Filters.Add(new ExceptionMiddleware());
             config.MapHttpAttributeRoutes();
             config.Routes.MapHttpRoute(
-                  name: "MareneStoreApi",
-                routeTemplate: "api/v{version}/{controller}/{id}",
+                name: "MareneStoreApi",
+                routeTemplate: "api/{controller}/{id}",
                 defaults: new
                 {
-                    version = "1",
                     id = RouteParameter.Optional
                 }
             );

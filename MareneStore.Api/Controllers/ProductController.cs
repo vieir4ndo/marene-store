@@ -6,7 +6,7 @@ using System.Web.Http;
 
 namespace MareneStore.Api.Controllers
 {
-    [RoutePrefix("api/products")]
+    [RoutePrefix("api/v1/products")]
     public class ProductController : ApiController
     {
         private readonly IProductService _productService;
@@ -17,37 +17,30 @@ namespace MareneStore.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IHttpActionResult> CreateProduct([FromBody]ProductRequest request)
+        [Route("")]
+        public async Task<IHttpActionResult> CreateProduct([FromBody] ProductRequest request)
         {
-            var validationResult = request.Validate();
-            if (!validationResult.IsValid)
-            {
-                return BadRequest(string.Join("; ", validationResult.Errors));
-            }
+            request.Validate();
 
             var product = await _productService.CreateProductAsync(request.ToDto());
-
             return Ok(product);
         }
 
-        // GET api/products
         [HttpGet]
+        [Route("")]
         public async Task<IHttpActionResult> GetAllProducts()
         {
-            // Implementation to retrieve all products
-            //TODO: Add pagination
             var products = await _productService.GetAll();
             return Ok(products);
         }
-        // GET api/products/{id}
+
         [HttpGet]
-        [Route("{id:guid}")]
+        [Route("{id}")]
         public async Task<IHttpActionResult> GetProductById(Guid id)
         {
-            // Implementation to retrieve a product by its ID
-            //TODO: Handle not found
             var product = await _productService.GetById(id);
             return Ok(product);
         }
     }
+
 }

@@ -27,7 +27,7 @@ namespace MareneStore.Infrastructure.Data.Repositories
 
         public async Task<Product> GetByIdAsync(Guid id)
         {
-            return await _dbSet.FindAsync(id);
+            return await _dbSet.FirstOrDefaultAsync(x=> x.Id == id);
         }
 
         public async Task<IEnumerable<Product>> FindAsync(Expression<Func<Product, bool>> predicate)

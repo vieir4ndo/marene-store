@@ -1,6 +1,7 @@
 ﻿using FluentValidation.Results;
 using MareneStore.Api.Validators;
 using MareneStore.Application.Dtos;
+using System.Linq;
 
 namespace MareneStore.Api.Requests
 {
@@ -26,9 +27,14 @@ namespace MareneStore.Api.Requests
             };
         }
 
-        public ValidationResult Validate()
+        public void Validate()
         {
-            return new ProductRequestValidator().Validate(this);
+            var validationResult = new ProductRequestValidator().Validate(this);
+            if (!validationResult.IsValid)
+            {
+                var errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
+                throw new Domain.Exceptions.ValidationException(errors);
+            }
         }
     }
 }

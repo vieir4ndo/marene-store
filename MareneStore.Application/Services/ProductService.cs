@@ -1,6 +1,7 @@
 ﻿using MareneStore.Application.Dtos;
 using MareneStore.Application.Interfaces;
 using MareneStore.Domain.Entities;
+using MareneStore.Domain.Exceptions;
 using MareneStore.Infrastructure.Data.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -50,6 +51,11 @@ namespace MareneStore.Application.Services
         public async Task<ProductDto> GetById(Guid id)
         {
             var product = await _productRepository.GetByIdAsync(id);
+
+            if (product == null)
+            {
+                throw new NotFoundException();
+            }
 
             return ProductDto.FromEntity(product);
         }
