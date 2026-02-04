@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MareneStore.Domain.Enums
+﻿namespace MareneStore.Domain.Enums
 {
     public enum OrderStatus
     {
         Pending,
-        Processing,
+        Confirmed,
         Shipped,
         Delivered,
         Cancelled

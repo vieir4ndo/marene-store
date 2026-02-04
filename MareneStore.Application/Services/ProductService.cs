@@ -5,6 +5,7 @@ using MareneStore.Domain.Exceptions;
 using MareneStore.Infrastructure.Data.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MareneStore.Application.Services
@@ -34,7 +35,14 @@ namespace MareneStore.Application.Services
             return ProductDto.FromEntity(createdProduct);
         }
 
-        public async Task<List<ProductDto>> GetAll()
+        public async Task<List<ProductDto>> GetActiveProductsByIdsAsync(List<Guid> ids)
+        {
+            var products = await _productRepository.FindAsync(x => x.IsActive && ids.Contains(x.Id));
+
+            return products.ToList().ConvertAll(p => ProductDto.FromEntity(p));
+        }
+
+        public async Task<List<ProductDto>> GetAllAsync()
         {
             var products = await _productRepository.GetAllAsync();
 
@@ -48,7 +56,7 @@ namespace MareneStore.Application.Services
             return outputProducts;
         }
 
-        public async Task<ProductDto> GetById(Guid id)
+        public async Task<ProductDto> GetByIdAsync(Guid id)
         {
             var product = await _productRepository.GetByIdAsync(id);
 
@@ -58,6 +66,13 @@ namespace MareneStore.Application.Services
             }
 
             return ProductDto.FromEntity(product);
+        }
+
+        public async Task<List<ProductDto>> GetProductsByIdsAsync(List<Guid> ids)
+        {
+            var products = await _productRepository.FindAsync(x=> ids.Contains(x.Id));
+
+            return products.ToList().ConvertAll(p => ProductDto.FromEntity(p));
         }
 
         public async Task<ProductDto> UpdateProductAsync(ProductDto product)

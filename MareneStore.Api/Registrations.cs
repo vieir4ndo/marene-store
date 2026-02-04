@@ -8,6 +8,7 @@ namespace MareneStore.Api
         public static IServiceCollection AddControllers(this IServiceCollection services)
         {
             services.AddTransient<ProductController>();
+            services.AddTransient<OrderController>();
 
             return services;
         }

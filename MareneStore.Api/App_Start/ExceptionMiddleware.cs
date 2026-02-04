@@ -34,6 +34,17 @@ namespace MareneStore.Api.App_Start
                     Errors = null
                 }.ToJson());
             }
+            else if (ex is ConflictException cfx)
+            {
+                context.Response = context.Request.CreateResponse(
+                HttpStatusCode.Conflict,
+                new ApiResponse()
+                {
+                    Success = false,
+                    Data = null,
+                    Errors = new System.Collections.Generic.List<string>() { cfx.Message }
+                }.ToJson());
+            }
             else
             {
                 context.Response = context.Request.CreateResponse(

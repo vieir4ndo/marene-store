@@ -10,5 +10,9 @@ namespace MareneStore.Domain.Exceptions
         {
             Errors = errors;
         }
+        public ValidationException(string error)
+        {
+            Errors = new List<string> { error };
+        }
     }
 }

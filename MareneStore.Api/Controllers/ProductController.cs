@@ -27,11 +27,12 @@ namespace MareneStore.Api.Controllers
             return Ok(ApiResponse.CreateSuccess(product));
         }
 
+        //TODO: Add pagination to GetAllProducts
         [HttpGet]
         [Route("")]
         public async Task<IHttpActionResult> GetAllProducts()
         {
-            var products = await _productService.GetAll();
+            var products = await _productService.GetAllAsync();
             return Ok(ApiResponse.CreateSuccess(products));
         }
 
@@ -39,7 +40,7 @@ namespace MareneStore.Api.Controllers
         [Route("{id}")]
         public async Task<IHttpActionResult> GetProductById(Guid id)
         {
-            var product = await _productService.GetById(id);
+            var product = await _productService.GetByIdAsync(id);
             return Ok(ApiResponse.CreateSuccess(product));
         }
 
