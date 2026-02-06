@@ -44,7 +44,7 @@ namespace MareneStore.Api.Controllers
             return Ok(ApiResponse.CreateSuccess(product));
         }
 
-        [HttpPatch]
+        [HttpPut]
         [Route("{id}")]
         public async Task<IHttpActionResult> UpdateProduct(Guid id, [FromBody] ProductRequest request)
         {
@@ -55,5 +55,4 @@ namespace MareneStore.Api.Controllers
             return Ok(ApiResponse.CreateSuccess(updatedProduct));
         }
     }
-
 }

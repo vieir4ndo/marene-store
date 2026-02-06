@@ -44,9 +44,8 @@ namespace MareneStore.Api.Controllers
             return Ok(ApiResponse.CreateSuccess(order));
         }
 
-        //TODO: Validate if delete is correct verb for canceling an order
-        [HttpDelete]
-        [Route("{orderId}")]
+        [HttpPatch]
+        [Route("{orderId}/cancel")]
         public async Task<IHttpActionResult> CancelOrder(Guid orderId)
         {
             var order = await _orderService.CancelOrderAsync(orderId);
@@ -54,6 +53,5 @@ namespace MareneStore.Api.Controllers
         }
 
         //TODO: Implement missing status updates
-
     }
 }
