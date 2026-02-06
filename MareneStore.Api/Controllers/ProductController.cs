@@ -29,10 +29,9 @@ namespace MareneStore.Api.Controllers
 
         [HttpGet]
         [Route("")]
-        public async Task<IHttpActionResult> GetAllProducts([FromUri] PaginatedRequest request)
+        public async Task<IHttpActionResult> GetAllProducts([FromUri] int pageNumber = 1, [FromUri] int pageSize = 10)
         {
-            request.Validate();
-            var products = await _productService.GetAllAsync(request.PageNumber, request.PageSize);
+            var products = await _productService.GetAllAsync(pageNumber, pageSize);
             return Ok(ApiResponse.CreateSuccess(products));
         }
 
