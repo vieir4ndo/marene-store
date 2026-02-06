@@ -127,10 +127,12 @@
     <Compile Include="Requests\OrderDetailRequest.cs" />
     <Compile Include="Requests\OrderRequest.cs" />
     <Compile Include="Requests\ProductRequest.cs" />
+    <Compile Include="Requests\UpdateOrderStatusRequest.cs" />
     <Compile Include="Responses\ApiResponse.cs" />
     <Compile Include="Validators\CreateOrderDetailRequestValidator.cs" />
     <Compile Include="Validators\CreateOrderRequestValidator.cs" />
     <Compile Include="Validators\CreateProductRequestValidator.cs" />
+    <Compile Include="Validators\UpdateOrderStatusRequestValidator.cs" />
     <Compile Include="Validators\UpdateProductRequestValidator.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -44,10 +44,11 @@ namespace MareneStore.Api.Controllers
         }
 
         [HttpPatch]
-        [Route("{orderId}/cancel")]
-        public async Task<IHttpActionResult> CancelOrder(Guid orderId)
+        [Route("{orderId}")]
+        public async Task<IHttpActionResult> UpdateOrderStatus(Guid orderId, [FromBody] UpdateOrderStatusRequest request)
         {
-            var order = await _orderService.CancelOrderAsync(orderId);
+            request.Validate();
+            var order = await _orderService.UpdateOrderStatusAsync(orderId, request.Status);
             return Ok(ApiResponse.CreateSuccess(order));
         }
 

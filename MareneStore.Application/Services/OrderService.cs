@@ -1,6 +1,7 @@
 ﻿using MareneStore.Application.Dtos;
 using MareneStore.Application.Interfaces;
 using MareneStore.Domain.Entities;
+using MareneStore.Domain.Enums;
 using MareneStore.Infrastructure.Data.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace MareneStore.Application.Services
             _productService = productService;
         }
 
-        public async Task<OrderDto> CancelOrderAsync(Guid id)
+        public async Task<OrderDto> UpdateOrderStatusAsync(Guid id, OrderStatus status)
         {
             var order = await _orderRepository.GetByIdAsync(id);
 
@@ -29,27 +30,27 @@ namespace MareneStore.Application.Services
                 throw new Domain.Exceptions.NotFoundException();
             }
 
-            var success = order.CancelOrder();
+            var (success, errorMessage) = order.UpdateStatus(status);
 
             if (!success)
             {
-                throw new Domain.Exceptions.ConflictException("Order cannot be cancelled");
+                throw new Domain.Exceptions.ConflictException(errorMessage);
             }
 
             _orderRepository.Update(order);
-            await _orderRepository.SaveChangesAsync();
 
-            var products = await _productService.GetProductsByIdsAsync(order.Details.Select(x => x.ProductId).ToList());
-            _ = products.Select(p =>
+            order.Details.ToList().ForEach(p =>
             {
                 var cancelledQuantity = order.Details.First(od => od.ProductId == p.Id).Quantity;
-                p.Stock += cancelledQuantity;
-                if (p.IsActive == false)
+                p.Product.Stock += cancelledQuantity;
+                if (!p.Product.IsActive)
                 {
-                    p.IsActive = true;
+                    p.Product.IsActive = true;
                 }
-                return _productService.UpdateProductAsync(p);
             });
+
+            await _orderRepository.SaveChangesAsync();
+
             return OrderDto.FromEntity(order);
         }
 

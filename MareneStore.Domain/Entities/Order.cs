@@ -39,14 +39,26 @@ namespace MareneStore.Domain.Entities
             return total;
         }
 
-        public bool CancelOrder()
+        public (bool, string) UpdateStatus(OrderStatus status)
         {
-            if (Status == OrderStatus.Pending)
-            {
-                Status = OrderStatus.Cancelled;
-                return true;
-            }
-            return false;
+            if (Status == OrderStatus.Cancelled)
+                return (false, "Order is already cancelled, status cannot change");
+
+            if (Status == OrderStatus.Delivered)
+                return (false, "Order is already delivered, status cannot change");
+
+            if ((int)status < (int)Status)
+                return (false, "Order status cannot change from " + Status.ToString() + " to " + status.ToString());
+
+            if (status == OrderStatus.Cancelled &&
+                Status >= OrderStatus.Shipped)
+                return (false, "Order is already shipped, it cannot be cancelled");
+
+            if (status == Status)
+                return (false, "Order is already " + Status.ToString());
+
+            Status = status;
+            return (true, string.Empty);
         }
     }
 }
