@@ -32,7 +32,7 @@ namespace MareneStore.Api.Controllers
         public async Task<IHttpActionResult> GetAllProducts([FromUri] int pageNumber = 1, [FromUri] int pageSize = 10)
         {
             var products = await _productService.GetAllAsync(pageNumber, pageSize);
-            return Ok(ApiResponse.CreateSuccess(products));
+            return Ok(ApiResponse.CreateSuccess(products, pageNumber, pageSize));
         }
 
         [HttpGet]

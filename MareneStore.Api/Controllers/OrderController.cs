@@ -32,7 +32,7 @@ namespace MareneStore.Api.Controllers
         public async Task<IHttpActionResult> GetAllOrders([FromUri] int pageNumber = 1, [FromUri] int pageSize = 10)
         {
             var orders = await _orderService.GetAllAsync(pageNumber, pageSize);
-            return Ok(ApiResponse.CreateSuccess(orders));
+            return Ok(ApiResponse.CreateSuccess(orders, pageNumber, pageSize));
         }
 
         [HttpGet]
@@ -51,7 +51,5 @@ namespace MareneStore.Api.Controllers
             var order = await _orderService.UpdateOrderStatusAsync(orderId, request.Status);
             return Ok(ApiResponse.CreateSuccess(order));
         }
-
-        //TODO: Implement missing status updates
     }
 }

@@ -21,7 +21,7 @@ namespace MareneStore.Api.App_Start
                     Success = false,
                     Data = null,
                     Errors = vex.Errors
-                }.ToJson());
+                });
             }
             else if (ex is NotFoundException nfx)
             {
@@ -32,7 +32,7 @@ namespace MareneStore.Api.App_Start
                     Success = false,
                     Data = null,
                     Errors = null
-                }.ToJson());
+                });
             }
             else if (ex is ConflictException cfx)
             {
@@ -43,7 +43,7 @@ namespace MareneStore.Api.App_Start
                     Success = false,
                     Data = null,
                     Errors = new System.Collections.Generic.List<string>() { cfx.Message }
-                }.ToJson());
+                });
             }
             else
             {
@@ -54,7 +54,7 @@ namespace MareneStore.Api.App_Start
                     Success = false,
                     Data = null,
                     Errors = new System.Collections.Generic.List<string>() { "An unexpected error occurred." }
-                }.ToJson());
+                });
             }
         }
     }

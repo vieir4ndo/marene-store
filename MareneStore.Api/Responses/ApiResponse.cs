@@ -1,4 +1,5 @@
-﻿﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace MareneStore.Api.Responses
 {
@@ -7,11 +8,8 @@ namespace MareneStore.Api.Responses
         public bool Success { get; set; }
         public object Data { get; set; }
         public List<string> Errors { get; set; }
-
-        public string ToJson()
-        {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
-        }
+        public int? PageNumber { get; set; } = null;
+        public int? PageSize { get; set; } = null;
 
         public static ApiResponse CreateSuccess(object data)
         {
@@ -20,6 +18,18 @@ namespace MareneStore.Api.Responses
                 Success = true,
                 Data = data,
                 Errors = null
+            };
+        }
+
+        public static ApiResponse CreateSuccess(object data, int pageNumber, int pageSize)
+        {
+            return new ApiResponse()
+            {
+                Success = true,
+                Data = data,
+                Errors = null,
+                PageNumber = pageNumber,
+                PageSize = pageSize
             };
         }
 

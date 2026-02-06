@@ -23,6 +23,7 @@ namespace MareneStore.Infrastructure.Data.Repositories
         public async Task<IEnumerable<Order>> GetAllAsync(int pageNumber = 1, int pageSize = 10)
         {
             return await _dbSet
+                .OrderBy(x=>x.Id)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
