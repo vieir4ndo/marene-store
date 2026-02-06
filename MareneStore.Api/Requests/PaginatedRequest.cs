@@ -1,6 +1,5 @@
 ﻿using MareneStore.Domain.Exceptions;
 using System.Collections.Generic;
-using System.Web.Http;
 
 namespace MareneStore.Api.Requests
 {
