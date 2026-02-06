@@ -42,9 +42,9 @@ namespace MareneStore.Application.Services
             return products.ToList().ConvertAll(p => ProductDto.FromEntity(p));
         }
 
-        public async Task<List<ProductDto>> GetAllAsync()
+        public async Task<List<ProductDto>> GetAllAsync(int pageNumber = 1, int pageSize = 10)
         {
-            var products = await _productRepository.GetAllAsync();
+            var products = await _productRepository.GetAllAsync(pageNumber, pageSize);
 
             var outputProducts = new List<ProductDto>();
 

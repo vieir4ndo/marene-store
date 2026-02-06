@@ -20,9 +20,12 @@ namespace MareneStore.Infrastructure.Data.Repositories
             _dbSet = _context.Set<Product>();
         }
 
-        public async Task<IEnumerable<Product>> GetAllAsync()
+        public async Task<IEnumerable<Product>> GetAllAsync(int pageNumber = 1, int pageSize = 10)
         {
-            return await _dbSet.ToListAsync();
+            return await _dbSet
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
         }
 
         public async Task<Product> GetByIdAsync(Guid id)

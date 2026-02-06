@@ -27,12 +27,12 @@ namespace MareneStore.Api.Controllers
             return Ok(ApiResponse.CreateSuccess(product));
         }
 
-        //TODO: Add pagination to GetAllProducts
         [HttpGet]
         [Route("")]
-        public async Task<IHttpActionResult> GetAllProducts()
+        public async Task<IHttpActionResult> GetAllProducts([FromUri] PaginatedRequest request)
         {
-            var products = await _productService.GetAllAsync();
+            request.Validate();
+            var products = await _productService.GetAllAsync(request.PageNumber, request.PageSize);
             return Ok(ApiResponse.CreateSuccess(products));
         }
 

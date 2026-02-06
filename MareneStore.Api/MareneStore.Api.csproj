@@ -124,6 +124,7 @@
     <Compile Include="Registrations.cs" />
     <Compile Include="Requests\OrderDetailRequest.cs" />
     <Compile Include="Requests\OrderRequest.cs" />
+    <Compile Include="Requests\PaginatedRequest.cs" />
     <Compile Include="Requests\ProductRequest.cs" />
     <Compile Include="Responses\ApiResponse.cs" />
     <Compile Include="Validators\CreateOrderDetailRequestValidator.cs" />

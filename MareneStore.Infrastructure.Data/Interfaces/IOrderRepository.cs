@@ -8,7 +8,7 @@ namespace MareneStore.Infrastructure.Data.Interfaces
 {
     public interface IOrderRepository
     {
-        Task<IEnumerable<Order>> GetAllAsync();
+        Task<IEnumerable<Order>> GetAllAsync(int pageNumber = 1, int pageSize = 10);
         Task<Order> GetByIdAsync(Guid id);
         Task<IEnumerable<Order>> FindAsync(Expression<Func<Order, bool>> predicate);
         Task<Order> AddAsync(Order entity);
