@@ -53,6 +53,7 @@
     <Compile Include="Dtos\OrderDetailDto.cs" />
     <Compile Include="Dtos\OrderDto.cs" />
     <Compile Include="Dtos\ProductDto.cs" />
+    <Compile Include="Interfaces\IdentityInterfaces.cs" />
     <Compile Include="Interfaces\IOrderService.cs" />
     <Compile Include="Interfaces\IProductService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

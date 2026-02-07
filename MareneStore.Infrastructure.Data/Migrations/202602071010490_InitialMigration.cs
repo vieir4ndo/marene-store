@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class FirstVersion : DbMigration
+    public partial class InitialMigration : DbMigration
     {
         public override void Up()
         {
@@ -31,12 +31,12 @@
                 c => new
                     {
                         Id = c.Guid(nullable: false),
-                        Date = c.DateTime(nullable: false, precision: 0),
+                        Date = c.DateTime(nullable: false),
                         TotalAmount = c.Decimal(nullable: false, precision: 18, scale: 2),
                         Status = c.Int(nullable: false),
-                        UserName = c.String(nullable: false, maxLength: 100, storeType: "nvarchar"),
-                        UserEmail = c.String(nullable: false, maxLength: 100, storeType: "nvarchar"),
-                        UserShippingAddress = c.String(nullable: false, maxLength: 250, storeType: "nvarchar"),
+                        UserName = c.String(nullable: false, maxLength: 100),
+                        UserEmail = c.String(nullable: false, maxLength: 100),
+                        UserShippingAddress = c.String(nullable: false, maxLength: 250),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -45,12 +45,12 @@
                 c => new
                     {
                         Id = c.Guid(nullable: false),
-                        Name = c.String(nullable: false, maxLength: 100, storeType: "nvarchar"),
-                        Description = c.String(maxLength: 500, storeType: "nvarchar"),
+                        Name = c.String(nullable: false, maxLength: 100),
+                        Description = c.String(maxLength: 500),
                         Price = c.Decimal(nullable: false, precision: 18, scale: 2),
                         Stock = c.Int(nullable: false),
                         IsActive = c.Boolean(nullable: false),
-                        ImageUrl = c.String(maxLength: 250, storeType: "nvarchar"),
+                        ImageUrl = c.String(maxLength: 250),
                     })
                 .PrimaryKey(t => t.Id);
             

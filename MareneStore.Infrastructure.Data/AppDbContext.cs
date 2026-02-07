@@ -1,13 +1,11 @@
 ﻿using MareneStore.Domain.Entities;
 using MareneStore.Infrastructure.Data.Configurators;
-using MySql.Data.EntityFramework;
 using System;
 using System.Configuration;
 using System.Data.Entity;
 
 namespace MareneStore.Infrastructure.Data
 {
-    [DbConfigurationType(typeof(MySqlEFConfiguration))]
     public class AppDbContext : DbContext
     {
         public AppDbContext()

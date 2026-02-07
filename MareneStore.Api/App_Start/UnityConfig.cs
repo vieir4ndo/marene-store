@@ -18,6 +18,7 @@ namespace MareneStore.Api
 
             container.RegisterType<IProductService, ProductService>(new HierarchicalLifetimeManager());
             container.RegisterType<IOrderService, OrderService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IUserService, MareneStore.Infrastructure.Identity.UserService>(new HierarchicalLifetimeManager());
 
             container.RegisterType<AppDbContext>(new HierarchicalLifetimeManager());
 

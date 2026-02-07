@@ -7,13 +7,13 @@ namespace MareneStore.Infrastructure.Data.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.5.1")]
-    public sealed partial class FirstVersion : IMigrationMetadata
+    public sealed partial class InitialMigration : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(FirstVersion));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialMigration));
         
         string IMigrationMetadata.Id
         {
-            get { return "202601311123282_FirstVersion"; }
+            get { return "202602071010490_InitialMigration"; }
         }
         
         string IMigrationMetadata.Source
