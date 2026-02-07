@@ -20,6 +20,7 @@ namespace MareneStore.Api.Controllers
 
         [HttpPost]
         [Route("")]
+        [Authorize]
         public async Task<IHttpActionResult> CreateOrder([FromBody] OrderRequest request)
         {
             request.ValidateCreation();
@@ -29,6 +30,7 @@ namespace MareneStore.Api.Controllers
 
         [HttpGet]
         [Route("")]
+        [Authorize]
         public async Task<IHttpActionResult> GetAllOrders([FromUri] int pageNumber = 1, [FromUri] int pageSize = 10)
         {
             var orders = await _orderService.GetAllAsync(pageNumber, pageSize);
@@ -37,6 +39,7 @@ namespace MareneStore.Api.Controllers
 
         [HttpGet]
         [Route("{orderId}")]
+        [Authorize]
         public async Task<IHttpActionResult> GetOrderById(Guid orderId)
         {
             var order = await _orderService.GetByIdAsync(orderId);
@@ -45,6 +48,7 @@ namespace MareneStore.Api.Controllers
 
         [HttpPatch]
         [Route("{orderId}")]
+        [Authorize]
         public async Task<IHttpActionResult> UpdateOrderStatus(Guid orderId, [FromBody] UpdateOrderStatusRequest request)
         {
             request.Validate();

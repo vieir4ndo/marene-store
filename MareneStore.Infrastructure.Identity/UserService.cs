@@ -1,5 +1,6 @@
-﻿using MareneStore.Application.Interfaces;
-using MareneStore.Infrastructure.Identity;
+﻿using MareneStore.Application.Dtos;
+using MareneStore.Application.Interfaces;
+using MareneStore.Domain.Exceptions;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Linq;
@@ -16,24 +17,33 @@ namespace MareneStore.Infrastructure.Identity
             _userManager = new UserManager<AppUser>(new UserStore<AppUser>(identityDbContext));
         }
 
-        public async Task<Result> RegisterAsync(string username, string password, string nomeCompleto)
+        public async Task<AppUserDto> RegisterAsync(string username, string password)
         {
-            var user = new AppUser { UserName = username, NomeCompleto = nomeCompleto };
+            var user = new AppUser { UserName = username };
             var result = await _userManager.CreateAsync(user, password);
-            return new Result { Success = result.Succeeded, Errors = result.Errors.ToArray() };
+
+            if (!result.Succeeded)
+            {
+                throw new ValidationException(result.Errors.ToList());
+            }
+
+            return user.ToDto();
         }
 
         public async Task<string> AuthenticateAsync(string username, string password)
         {
             var user = await _userManager.FindAsync(username, password);
-            return user?.Id; // API gera JWT, MVC usa Cookie
+            return user?.Id;
         }
 
         public async Task<AppUserDto> GetByIdAsync(string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
-            if (user == null) return null;
-            return new AppUserDto { Id = user.Id, Username = user.UserName, NomeCompleto = user.NomeCompleto };
+            if (user == null)
+            {
+                throw new NotFoundException();
+            }
+            return new AppUserDto { Id = user.Id, Username = user.UserName };
         }
     }
 }

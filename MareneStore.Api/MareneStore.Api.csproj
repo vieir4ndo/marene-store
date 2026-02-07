@@ -192,20 +192,22 @@
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Requests\LoginRequest.cs" />
     <Compile Include="Requests\OrderDetailRequest.cs" />
     <Compile Include="Requests\OrderRequest.cs" />
     <Compile Include="Requests\ProductRequest.cs" />
-    <Compile Include="Requests\RegisterRequest.cs" />
+    <Compile Include="Requests\UserRequest.cs" />
     <Compile Include="Requests\UpdateOrderStatusRequest.cs" />
     <Compile Include="Responses\ApiResponse.cs" />
+    <Compile Include="Responses\TokenResponse.cs" />
     <Compile Include="Validators\CreateOrderDetailRequestValidator.cs" />
     <Compile Include="Validators\CreateOrderRequestValidator.cs" />
     <Compile Include="Validators\CreateProductRequestValidator.cs" />
+    <Compile Include="Validators\UserRequestValidator.cs" />
     <Compile Include="Validators\UpdateOrderStatusRequestValidator.cs" />
     <Compile Include="Validators\UpdateProductRequestValidator.cs" />
   </ItemGroup>

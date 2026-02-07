@@ -1,14 +1,13 @@
-﻿using System;
-using System.Text;
-
-// OWIN
-using Owin;
+﻿using Microsoft.IdentityModel.Tokens;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
-
 // JWT / IdentityModel
 using Microsoft.Owin.Security.Jwt;
-using Microsoft.IdentityModel.Tokens;
+// OWIN
+using Owin;
+using System;
+using System.Configuration;
+using System.Text;
 
 [assembly: OwinStartup(typeof(MareneStore.Api.App_Start.Startup))]
 
@@ -18,8 +17,11 @@ namespace MareneStore.Api.App_Start
     {
         public void Configuration(IAppBuilder app)
         {
+            var secret = ConfigurationManager.AppSettings["JwtSecret"];
+            var issuer = ConfigurationManager.AppSettings["JwtIssuer"];
+            var audience = ConfigurationManager.AppSettings["JwtAudience"];
             // API JWT
-            var key = Encoding.UTF8.GetBytes("uma-chave-muito-secreta-aqui");
+            var key = Encoding.UTF8.GetBytes(secret);
             app.UseJwtBearerAuthentication(new JwtBearerAuthenticationOptions
             {
                 AuthenticationMode = AuthenticationMode.Active,
@@ -29,8 +31,8 @@ namespace MareneStore.Api.App_Start
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = "MareneStoreAPI",
-                    ValidAudience = "MareneStoreClient",
+                    ValidIssuer = issuer,
+                    ValidAudience = audience,
                     IssuerSigningKey = new SymmetricSecurityKey(key)
                 }
             });
