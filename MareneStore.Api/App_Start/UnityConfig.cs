@@ -3,6 +3,7 @@ using MareneStore.Application.Services;
 using MareneStore.Infrastructure.Data;
 using MareneStore.Infrastructure.Data.Interfaces;
 using MareneStore.Infrastructure.Data.Repositories;
+using MareneStore.Infrastructure.Identity;
 using System.Web.Http;
 using Unity;
 using Unity.Lifetime;
@@ -21,6 +22,7 @@ namespace MareneStore.Api
             container.RegisterType<IUserService, MareneStore.Infrastructure.Identity.UserService>(new HierarchicalLifetimeManager());
 
             container.RegisterType<AppDbContext>(new HierarchicalLifetimeManager());
+            container.RegisterType<IdentityDbContext>(new HierarchicalLifetimeManager());
 
             container.RegisterType<IProductRepository, ProductRepository>(new HierarchicalLifetimeManager());
             container.RegisterType<IOrderRepository, OrderRepository>(new HierarchicalLifetimeManager());

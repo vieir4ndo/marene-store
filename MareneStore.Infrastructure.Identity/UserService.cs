@@ -11,10 +11,9 @@ namespace MareneStore.Infrastructure.Identity
     {
         private readonly UserManager<AppUser> _userManager;
 
-        public UserService()
+        public UserService(IdentityDbContext identityDbContext)
         {
-            var context = new AppDbContext();
-            _userManager = new UserManager<AppUser>(new UserStore<AppUser>(context));
+            _userManager = new UserManager<AppUser>(new UserStore<AppUser>(identityDbContext));
         }
 
         public async Task<Result> RegisterAsync(string username, string password, string nomeCompleto)

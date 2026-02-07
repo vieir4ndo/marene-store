@@ -5,14 +5,14 @@
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<MareneStore.Infrastructure.Identity.AppDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<MareneStore.Infrastructure.Identity.IdentityDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(MareneStore.Infrastructure.Identity.AppDbContext context)
+        protected override void Seed(MareneStore.Infrastructure.Identity.IdentityDbContext context)
         {
             //  This method will be called after migrating to the latest version.
 

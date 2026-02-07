@@ -3,10 +3,10 @@ using System.Configuration;
 
 namespace MareneStore.Infrastructure.Identity
 {
-    public class AppDbContext : IdentityDbContext<AppUser>
+    public class IdentityDbContext : IdentityDbContext<AppUser>
     {
-        public AppDbContext() : base("Name=IdentityDefaultConnection") { }
-        public static AppDbContext Create() => new AppDbContext();
+        public IdentityDbContext() : base("Name=IdentityDefaultConnection") { }
+        public static IdentityDbContext Create() => new IdentityDbContext();
 
     }
 }
