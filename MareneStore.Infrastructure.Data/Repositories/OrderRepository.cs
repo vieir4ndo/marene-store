@@ -31,7 +31,10 @@ namespace MareneStore.Infrastructure.Data.Repositories
 
         public async Task<Order> GetByIdAsync(Guid id)
         {
-            return await _dbSet.FirstOrDefaultAsync(x => x.Id == id);
+            return await _dbSet
+                .Include(o=>o.Details)
+            .Include(o => o.Details.Select(d => d.Product))
+            .FirstOrDefaultAsync(o => o.Id == id);
         }
 
         public async Task<IEnumerable<Order>> FindAsync(Expression<Func<Order, bool>> predicate)

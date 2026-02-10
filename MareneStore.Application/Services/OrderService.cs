@@ -37,18 +37,21 @@ namespace MareneStore.Application.Services
                 throw new Domain.Exceptions.ConflictException(errorMessage);
             }
 
-            _orderRepository.Update(order);
 
-            order.Details.ToList().ForEach(p =>
+            if (status == OrderStatus.Cancelled)
             {
-                var cancelledQuantity = order.Details.First(od => od.ProductId == p.Id).Quantity;
-                p.Product.Stock += cancelledQuantity;
-                if (!p.Product.IsActive)
+                foreach (Product p in order.Details.Select(d => d.Product).ToList())
                 {
-                    p.Product.IsActive = true;
+                    var orderedQuantity = order.Details.First(od => od.ProductId == p.Id).Quantity;
+                    p.Stock += orderedQuantity;
+                    if (p.Stock > 0)
+                    {
+                        p.IsActive = true;
+                    }
                 }
-            });
+            }
 
+            _orderRepository.Update(order);
             await _orderRepository.SaveChangesAsync();
 
             return OrderDto.FromEntity(order);
@@ -76,7 +79,7 @@ namespace MareneStore.Application.Services
             var orderEntity = new Order(orderDto.UserName, orderDto.UserEmail, orderDto.UserShippingAddress, details);
 
             var createdOrder = await _orderRepository.AddAsync(orderEntity);
-            _ = products.Select(p =>
+            foreach (ProductDto p in products)
             {
                 var orderedQuantity = orderDto.Details.First(od => od.ProductId == p.Id).Quantity;
                 p.Stock -= orderedQuantity;
@@ -84,8 +87,8 @@ namespace MareneStore.Application.Services
                 {
                     p.IsActive = false;
                 }
-                return _productService.UpdateProductAsync(p);
-            });
+                await _productService.UpdateProductAsync(p);
+            }
 
             return OrderDto.FromEntity(createdOrder);
         }
