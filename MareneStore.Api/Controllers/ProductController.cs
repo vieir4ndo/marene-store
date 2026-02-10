@@ -19,7 +19,7 @@ namespace MareneStore.Api.Controllers
 
         [HttpPost]
         [Route("")]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IHttpActionResult> CreateProduct([FromBody] ProductRequest request)
         {
             request.ValidateCreation();
@@ -46,7 +46,7 @@ namespace MareneStore.Api.Controllers
 
         [HttpPut]
         [Route("{id}")]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IHttpActionResult> UpdateProduct(Guid id, [FromBody] ProductRequest request)
         {
             request.ValidateUpdate();

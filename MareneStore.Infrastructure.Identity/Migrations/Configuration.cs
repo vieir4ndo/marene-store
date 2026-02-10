@@ -1,9 +1,9 @@
 ﻿namespace MareneStore.Infrastructure.Identity.Migrations
 {
-    using System;
-    using System.Data.Entity;
+    using MareneStore.Infrastructure.Identity.Entities;
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
     using System.Data.Entity.Migrations;
-    using System.Linq;
 
     internal sealed class Configuration : DbMigrationsConfiguration<MareneStore.Infrastructure.Identity.IdentityDbContext>
     {
@@ -14,10 +14,46 @@
 
         protected override void Seed(MareneStore.Infrastructure.Identity.IdentityDbContext context)
         {
-            //  This method will be called after migrating to the latest version.
+            var roleManager = new RoleManager<IdentityRole>(
+                new RoleStore<IdentityRole>(context));
 
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method
-            //  to avoid creating duplicate seed data.
+            var userManager = new UserManager<AppUser>(
+                new UserStore<AppUser>(context));
+
+            if (!roleManager.RoleExists("Admin"))
+            {
+                roleManager.Create(new IdentityRole("Admin"));
+            }
+
+            string email = "admin@admin.com";
+            string password = "Admin@123";
+
+            var user = userManager.FindByEmail(email);
+
+            if (user == null)
+            {
+                var admin = new AppUser
+                {
+                    UserName = email,
+                    Email = email,
+                    EmailConfirmed = true
+                };
+
+                var result = userManager.Create(admin, password);
+
+                if (result.Succeeded)
+                {
+                    userManager.AddToRole(admin.Id, "Admin");
+                }
+            }
+            else
+            {
+                if (!userManager.IsInRole(user.Id, "Admin"))
+                {
+                    userManager.AddToRole(user.Id, "Admin");
+                }
+            }
         }
+
     }
 }

@@ -30,7 +30,7 @@ namespace MareneStore.Api.Controllers
 
         [HttpGet]
         [Route("")]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IHttpActionResult> GetAllOrders([FromUri] int pageNumber = 1, [FromUri] int pageSize = 10)
         {
             var orders = await _orderService.GetAllAsync(pageNumber, pageSize);
@@ -40,6 +40,8 @@ namespace MareneStore.Api.Controllers
         [HttpGet]
         [Route("{orderId}")]
         [Authorize]
+        //TODO: Add authorization check to ensure users can only access their own orders unless they are admins
+        //TODO: Add another get all to get all orders for the currently authenticated user
         public async Task<IHttpActionResult> GetOrderById(Guid orderId)
         {
             var order = await _orderService.GetByIdAsync(orderId);
@@ -49,6 +51,8 @@ namespace MareneStore.Api.Controllers
         [HttpPatch]
         [Route("{orderId}")]
         [Authorize]
+        //TODO: Add authorization check to ensure users can only update their own orders unless they are admins
+        // Also validate that users can only update to certain statuses (e.g. users can only cancel their own orders, but not mark them as shipped)
         public async Task<IHttpActionResult> UpdateOrderStatus(Guid orderId, [FromBody] UpdateOrderStatusRequest request)
         {
             request.Validate();
