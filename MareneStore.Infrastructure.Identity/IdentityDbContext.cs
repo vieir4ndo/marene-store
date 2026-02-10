@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
-using System.Configuration;
+﻿using MareneStore.Infrastructure.Identity.Entities;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace MareneStore.Infrastructure.Identity
 {

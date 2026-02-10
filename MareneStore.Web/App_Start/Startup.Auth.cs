@@ -1,10 +1,9 @@
-﻿using MareneStore.Infrastructure.Identity;
-using MareneStore.Web.Models;
+﻿using MareneStore.Infrastructure.Identity.Entities;
+using MareneStore.Web.Managers;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
-using Microsoft.Owin.Security.Google;
 using Owin;
 using System;
 
@@ -35,7 +34,7 @@ namespace MareneStore.Web
                         validateInterval: TimeSpan.FromMinutes(30),
                         regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
                 }
-            });            
+            });
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
             // Enables the application to temporarily store user information when they are verifying the second factor in the two-factor authentication process.

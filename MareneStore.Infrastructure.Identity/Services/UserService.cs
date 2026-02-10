@@ -1,6 +1,7 @@
 ﻿using MareneStore.Application.Dtos;
 using MareneStore.Application.Interfaces;
 using MareneStore.Domain.Exceptions;
+using MareneStore.Infrastructure.Identity.Entities;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Linq;

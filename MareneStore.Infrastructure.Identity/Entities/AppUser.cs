@@ -4,7 +4,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace MareneStore.Infrastructure.Identity
+namespace MareneStore.Infrastructure.Identity.Entities
 {
     public class AppUser : IdentityUser
     {
