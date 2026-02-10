@@ -42,11 +42,11 @@ namespace MareneStore.Infrastructure.Data.Repositories
                 .ToListAsync();
         }
 
-        public async Task<Stock> GetByIdAsync(Guid id)
+        public async Task<Stock> GetByProductIdAsync(Guid id)
         {
             return await _dbSet
                 .Include(s => s.Product)
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.ProductId == id);
         }
 
         public void Remove(Stock entity)

@@ -18,6 +18,10 @@ namespace MareneStore.Application.Services
         }
         public async Task<StockDto> CreateStockAsync(Guid productId)
         {
+            if (await _repository.GetByProductIdAsync(productId) != null)
+            {
+                return null;
+            }
             var stock = new Stock(productId);
             await _repository.AddAsync(stock);
             return StockDto.FromEntity(stock);

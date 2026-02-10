@@ -14,7 +14,8 @@ namespace MareneStore.Web.Models
                 Items = dtos.ConvertAll(dto => new StockItemViewModel
                 {
                     ProductName = dto.ProductName,
-                    ProductQuantity = dto.ProductQuantity
+                    ProductQuantity = dto.ProductQuantity,
+                    ImageUrl = dto.ImageUrl
                 })
             };
         }
@@ -23,6 +24,7 @@ namespace MareneStore.Web.Models
         {
             public string ProductName { get; set; }
             public int ProductQuantity { get; set; }
+            public string ImageUrl { get; set; }
         }
     }
 }

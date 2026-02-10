@@ -9,6 +9,7 @@ namespace MareneStore.Application.Dtos
         public Guid ProductId { get; set; }
         public string ProductName { get; set; }
         public int ProductQuantity { get; set; }
+        public string ImageUrl { get; set; }
 
         public static StockDto FromEntity(Stock stock)
         {
@@ -17,7 +18,8 @@ namespace MareneStore.Application.Dtos
                 Id = stock.Id,
                 ProductId = stock.ProductId,
                 ProductName = stock.Product.Name,
-                ProductQuantity = stock.Product.Stock
+                ProductQuantity = stock.Product.Stock,
+                ImageUrl = stock.Product.ImageUrl
             };
         }
     }
