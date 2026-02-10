@@ -4,6 +4,7 @@ using MareneStore.Domain.Exceptions;
 using MareneStore.Infrastructure.Identity.Entities;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -46,5 +47,15 @@ namespace MareneStore.Infrastructure.Identity
             }
             return new AppUserDto { Id = user.Id, Username = user.UserName };
         }
+
+        public async Task<IList<string>> GetUserRolesAsync(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                throw new NotFoundException();
+            }
+            return await _userManager.GetRolesAsync(userId);
+        } 
     }
 }

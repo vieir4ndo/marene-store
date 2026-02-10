@@ -5,7 +5,6 @@ using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Jwt;
 // OWIN
 using Owin;
-using System;
 using System.Configuration;
 using System.Text;
 
