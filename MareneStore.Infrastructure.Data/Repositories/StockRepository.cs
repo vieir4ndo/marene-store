@@ -44,7 +44,9 @@ namespace MareneStore.Infrastructure.Data.Repositories
 
         public async Task<Stock> GetByIdAsync(Guid id)
         {
-            return await _dbSet.FirstOrDefaultAsync(x => x.Id == id);
+            return await _dbSet
+                .Include(s => s.Product)
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public void Remove(Stock entity)

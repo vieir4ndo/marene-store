@@ -1,0 +1,21 @@
+@model MareneStore.Web.Models.StockViewModel
+@{
+    ViewBag.Title = "Stock Page";
+}
+
+@foreach (var item in Model.Items)
+{
+    <div class="card mb-3" style="max-width: 540px;">
+        <div class="row no-gutters">
+            <div class="col-md-4">
+                <!--<img src="item.ImageUrl" class="card-img" alt="item.Name">-->
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <p class="card-text"><strong>Name:</strong> @item.ProductName</p>
+                    <p class="card-text"><strong>Quantity:</strong> @item.ProductQuantity</p>
+                </div>
+            </div>
+        </div>
+     </div>
+}
