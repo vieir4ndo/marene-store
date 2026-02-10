@@ -14,11 +14,13 @@ namespace MareneStore.Application.Services
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IProductService _productService;
+        private readonly IStockService _stockService;
 
-        public OrderService(IOrderRepository orderRepository, IProductService productService)
+        public OrderService(IOrderRepository orderRepository, IProductService productService, IStockService stockService)
         {
             _orderRepository = orderRepository;
             _productService = productService;
+            _stockService = stockService;
         }
 
         public async Task<OrderDto> UpdateOrderStatusAsync(Guid id, OrderStatus status)
@@ -36,7 +38,6 @@ namespace MareneStore.Application.Services
             {
                 throw new Domain.Exceptions.ConflictException(errorMessage);
             }
-
 
             if (status == OrderStatus.Cancelled)
             {
@@ -83,10 +84,17 @@ namespace MareneStore.Application.Services
             {
                 var orderedQuantity = orderDto.Details.First(od => od.ProductId == p.Id).Quantity;
                 p.Stock -= orderedQuantity;
+
                 if (p.Stock == 0)
                 {
                     p.IsActive = false;
                 }
+
+                if (p.Stock <=2)
+                {
+                    await _stockService.CreateStockAsync(p.Id);
+                }
+
                 await _productService.UpdateProductAsync(p);
             }
 

@@ -55,12 +55,15 @@
     <Compile Include="Dtos\OrderDetailDto.cs" />
     <Compile Include="Dtos\OrderDto.cs" />
     <Compile Include="Dtos\ProductDto.cs" />
+    <Compile Include="Dtos\StockDto.cs" />
+    <Compile Include="Interfaces\IStockService.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
     <Compile Include="Interfaces\IOrderService.cs" />
     <Compile Include="Interfaces\IProductService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\OrderService.cs" />
     <Compile Include="Services\ProductService.cs" />
+    <Compile Include="Services\StockService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MareneStore.Domain\MareneStore.Domain.csproj">

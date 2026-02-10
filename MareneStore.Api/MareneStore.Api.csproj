@@ -192,6 +192,7 @@
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\StockController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

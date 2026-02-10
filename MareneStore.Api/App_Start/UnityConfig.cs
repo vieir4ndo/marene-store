@@ -19,13 +19,15 @@ namespace MareneStore.Api
 
             container.RegisterType<IProductService, ProductService>(new HierarchicalLifetimeManager());
             container.RegisterType<IOrderService, OrderService>(new HierarchicalLifetimeManager());
-            container.RegisterType<IUserService, MareneStore.Infrastructure.Identity.UserService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IUserService, UserService>(new HierarchicalLifetimeManager());
+            container.RegisterType<IStockService, StockService>(new HierarchicalLifetimeManager());
 
             container.RegisterType<AppDbContext>(new HierarchicalLifetimeManager());
             container.RegisterType<IdentityDbContext>(new HierarchicalLifetimeManager());
 
             container.RegisterType<IProductRepository, ProductRepository>(new HierarchicalLifetimeManager());
             container.RegisterType<IOrderRepository, OrderRepository>(new HierarchicalLifetimeManager());
+            container.RegisterType<IStockRepository, StockRepository>(new HierarchicalLifetimeManager());
 
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }

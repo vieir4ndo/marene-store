@@ -13,6 +13,7 @@ namespace MareneStore.Domain.Entities
         public bool IsActive { get; set; }
         public string ImageUrl { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        public virtual ICollection<Stock> Stocks { get; set; }
 
         protected Product() { }
 

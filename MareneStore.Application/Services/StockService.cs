@@ -1,0 +1,40 @@
+﻿using MareneStore.Application.Dtos;
+using MareneStore.Application.Interfaces;
+using MareneStore.Domain.Entities;
+using MareneStore.Infrastructure.Data.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace MareneStore.Application.Services
+{
+    public class StockService : IStockService
+    {
+        private readonly IStockRepository _repository;
+
+        public StockService(IStockRepository repository)
+        {
+            _repository = repository;
+        }
+        public async Task<StockDto> CreateStockAsync(Guid productId)
+        {
+            var stock = new Stock(productId);
+            await _repository.AddAsync(stock);
+            return StockDto.FromEntity(stock);
+        }
+
+        public async Task<List<StockDto>> GetAllAsync(int pageNumber, int pageSize)
+        {
+            var stocks = await _repository.GetAllAsync(pageNumber, pageSize);
+
+            var outputStocks = new List<StockDto>();
+
+            foreach (var s in stocks)
+            {
+                outputStocks.Add(StockDto.FromEntity(s));
+            }
+
+            return outputStocks;
+        }
+    }
+}

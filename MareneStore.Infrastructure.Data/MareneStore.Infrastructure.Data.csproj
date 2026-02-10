@@ -179,16 +179,23 @@
     <Compile Include="Configurators\OrderConfiguration.cs" />
     <Compile Include="Configurators\OrderDetailConfiguration.cs" />
     <Compile Include="Configurators\ProductConfiguration.cs" />
+    <Compile Include="Configurators\StockConfiguration.cs" />
     <Compile Include="Interfaces\IOrderRepository.cs" />
     <Compile Include="Interfaces\IProductRepository.cs" />
+    <Compile Include="Interfaces\IStockRepository.cs" />
     <Compile Include="Migrations\202602071010490_InitialMigration.cs" />
     <Compile Include="Migrations\202602071010490_InitialMigration.Designer.cs">
       <DependentUpon>202602071010490_InitialMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202602101644576_AddStockTable.cs" />
+    <Compile Include="Migrations\202602101644576_AddStockTable.Designer.cs">
+      <DependentUpon>202602101644576_AddStockTable.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\OrderRepository.cs" />
     <Compile Include="Repositories\ProductRepository.cs" />
+    <Compile Include="Repositories\StockRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -206,6 +213,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202602071010490_InitialMigration.resx">
       <DependentUpon>202602071010490_InitialMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202602101644576_AddStockTable.resx">
+      <DependentUpon>202602101644576_AddStockTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
