@@ -70,7 +70,7 @@ namespace MareneStore.Web.Controllers
 
             var productDto = new ProductDto
             {
-                Id = model.Id,
+                Id = model.Id.Value,
                 Name = model.Name,
                 Description = model.Description,
                 Price = model.Price,

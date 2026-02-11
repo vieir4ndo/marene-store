@@ -11,22 +11,26 @@
 
         <div class="form-group">
             <label for="Name">Name</label>
-            <input type="text" class="form-control" id="Name" name="Name" value="@Model.Name" required />
+            <input type="text" class="form-control" id="Name" name="Name" value="@Model.Name" />
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
         </div>
 
         <div class="form-group">
             <label for="Description">Description</label>
-            <textarea class="form-control" id="Description" name="Description" rows="3" required>@Model.Description</textarea>
+            <textarea class="form-control" id="Description" name="Description" rows="3">@Model.Description</textarea>
+            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
         </div>
 
         <div class="form-group">
             <label for="Price">Price</label>
-            <input type="number" class="form-control" id="Price" name="Price" value="@Model.Price" step="0.01" required />
+            <input type="number" class="form-control" id="Price" name="Price" value="@Model.Price" step="0.01" />
+            @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
         </div>
 
         <div class="form-group">
             <label for="Stock">Stock</label>
-            <input type="number" class="form-control" id="Stock" name="Stock" value="@Model.Stock" required />
+            <input type="number" class="form-control" id="Stock" name="Stock" value="@Model.Stock" />
+            @Html.ValidationMessageFor(model => model.Stock, "", new { @class = "text-danger" })
         </div>
 
         <div class="form-group">
@@ -40,6 +44,7 @@
         <div class="form-group">
             <label for="ImageUrl">Image URL</label>
             <input type="url" class="form-control" id="ImageUrl" name="ImageUrl" value="@Model.ImageUrl" />
+            @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger" })
         </div>
 
         <button type="submit" class="btn btn-primary">Save</button>
