@@ -75,6 +75,11 @@ namespace MareneStore.Application.Services
             return products.ToList().ConvertAll(p => ProductDto.FromEntity(p));
         }
 
+        public Task<int> GetTotalCountAsync()
+        {
+            return _productRepository.CountAsync();
+        }
+
         public async Task<ProductDto> UpdateProductAsync(ProductDto product)
         {
             var productEntity = await _productRepository.GetByIdAsync(product.Id);
