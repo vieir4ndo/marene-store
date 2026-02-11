@@ -1,6 +1,7 @@
 ﻿using MareneStore.Application.Dtos;
 using MareneStore.Application.Interfaces;
 using MareneStore.Domain.Entities;
+using MareneStore.Domain.Exceptions;
 using MareneStore.Infrastructure.Data.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -39,6 +40,18 @@ namespace MareneStore.Application.Services
             }
 
             return outputStocks;
+        }
+
+        public async Task RemoveByProductIdAsync(Guid productId)
+        {
+            var stock = await _repository.GetByProductIdAsync(productId);
+            if (stock == null)
+            {
+                throw new NotFoundException();
+            }
+
+            _repository.Remove(stock);
+            await _repository.SaveChangesAsync();
         }
     }
 }

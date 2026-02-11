@@ -1,5 +1,6 @@
 ﻿using MareneStore.Application.Interfaces;
 using MareneStore.Web.Models;
+using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -14,11 +15,19 @@ namespace MareneStore.Web.Controllers
             _stockService = stockService;
         }
 
+        [HttpGet]
         public async Task<ActionResult> Index()
         {
             var stocks = await _stockService.GetAllAsync();
 
             return View(StockViewModel.FromDto(stocks));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> RemoveByProductId(Guid productId)
+        {
+            await _stockService.RemoveByProductIdAsync(productId);
+            return RedirectToAction("Index");
         }
     }
 }

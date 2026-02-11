@@ -1,4 +1,5 @@
 ﻿using MareneStore.Application.Dtos;
+using System;
 using System.Collections.Generic;
 
 namespace MareneStore.Web.Models
@@ -15,7 +16,8 @@ namespace MareneStore.Web.Models
                 {
                     ProductName = dto.ProductName,
                     ProductQuantity = dto.ProductQuantity,
-                    ImageUrl = dto.ImageUrl
+                    ImageUrl = dto.ImageUrl,
+                    ProductId = dto.ProductId
                 })
             };
         }
@@ -25,6 +27,7 @@ namespace MareneStore.Web.Models
             public string ProductName { get; set; }
             public int ProductQuantity { get; set; }
             public string ImageUrl { get; set; }
+            public Guid ProductId { get; set; }
         }
     }
 }

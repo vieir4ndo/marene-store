@@ -9,5 +9,6 @@ namespace MareneStore.Application.Interfaces
     {
         Task<StockDto> CreateStockAsync(Guid productId);
         Task<List<StockDto>> GetAllAsync(int pageNumber = 1, int pageSize = 10);
+        Task RemoveByProductIdAsync(Guid productId);
     }
 }
