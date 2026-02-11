@@ -87,7 +87,7 @@ namespace MareneStore.Web.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            return View();
+            return View(new ProductItemViewModel());
         }
 
         [HttpPost]

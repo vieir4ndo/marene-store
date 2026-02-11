@@ -8,45 +8,81 @@
     <form action="@Url.Action("Create", "Product")" method="post">
         @Html.AntiForgeryToken()
 
-        <div class="form-group">
-            <label for="Name">Name</label>
-            <input type="text" class="form-control" id="Name" name="Name" />
-            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+        <div class="row">
+            <!-- Input Fields -->
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Name">Name</label>
+                            <input type="text" class="form-control" id="Name" name="Name" />
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Price">Price</label>
+                            <input type="number" class="form-control" id="Price" name="Price" step="0.01" />
+                            @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Stock">Stock</label>
+                            <input type="number" class="form-control" id="Stock" name="Stock" />
+                            @Html.ValidationMessageFor(model => model.Stock, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="IsActive">Status</label>
+                            <select class="form-control" id="IsActive" name="IsActive">
+                                <option value="true">Active</option>
+                                <option value="false">Inactive</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group  w-100">
+                        <label for="Description">Description</label>
+                        <textarea class="form-control" id="Description" name="Description" rows="3" style="width: 100%; max-width:none;"></textarea>
+                         @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <!-- Image Preview -->
+            <div class="col-md-4 d-flex flex-column justify-content-between align-items-center">
+                <img id="imagePreview"
+                     src="@(!string.IsNullOrEmpty(Model.ImageUrl) ? Model.ImageUrl : Url.Content("~/Content/Images/example-placeholder.jpg"))"
+                     alt="Image Preview"
+                     class="img-fluid border"
+                     style="max-height: 150px; max-width: 300px; object-fit: cover; margin-right:auto; margin-left:auto;" />
+                <div class="form-group w-100">
+                    <label for="ImageUrl">Image URL</label>
+                    <input type="url" class="form-control" id="ImageUrl" name="ImageUrl" oninput="updateImagePreview()" style="width: 100%; max-width:none;" />
+                    @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger" })
+                </div>
+            </div>
         </div>
 
-        <div class="form-group">
-            <label for="Description">Description</label>
-            <textarea class="form-control" id="Description" name="Description" rows="3"></textarea>
-            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+        <!-- Buttons -->
+        <div class="form-group mt-4">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a href="@Url.Action("Index", "Product")" class="btn btn-secondary ml-2">Cancel</a>
         </div>
-
-        <div class="form-group">
-            <label for="Price">Price</label>
-            <input type="number" class="form-control" id="Price" name="Price" step="0.01" />
-            @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
-        </div>
-
-        <div class="form-group">
-            <label for="Stock">Stock</label>
-            <input type="number" class="form-control" id="Stock" name="Stock" />
-            @Html.ValidationMessageFor(model => model.Stock, "", new { @class = "text-danger" })
-        </div>
-
-        <div class="form-group">
-            <label for="IsActive">Status</label>
-            <select class="form-control" id="IsActive" name="IsActive">
-                <option value="true">Active</option>
-                <option value="false">Inactive</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="ImageUrl">Image URL</label>
-            <input type="url" class="form-control" id="ImageUrl" name="ImageUrl" />
-            @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger" })
-        </div>
-
-        <button type="submit" class="btn btn-primary">Save</button>
-        <a href="@Url.Action("Index", "Product")" class="btn btn-secondary">Cancel</a>
     </form>
 </div>
+
+<script>
+    function updateImagePreview() {
+        const imageUrl = document.getElementById('ImageUrl').value;
+        const imagePreview = document.getElementById('imagePreview');
+        imagePreview.src = imageUrl || '@Url.Content("~/Content/Images/example-placeholder.jpg")';
+    }
+</script>
