@@ -42,6 +42,8 @@ namespace MareneStore.Api.Controllers
             var userId = await _userService.AuthenticateAsync(request.Username, request.Password);
             if (userId == null) return Unauthorized();
 
+            var user = await _userService.GetByIdAsync(userId);
+
             var secret = ConfigurationManager.AppSettings["JwtSecret"];
             var issuer = ConfigurationManager.AppSettings["JwtIssuer"];
             var audience = ConfigurationManager.AppSettings["JwtAudience"];
@@ -51,8 +53,9 @@ namespace MareneStore.Api.Controllers
 
             var claims = new List<Claim>()
             {
-                new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
-                new Claim(ClaimTypes.Name, request.Username),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Name, user.Username),
+                new Claim(ClaimTypes.Email, user.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };
 

@@ -30,8 +30,7 @@ namespace MareneStore.Web.Controllers
                 Session["PageSize"] = pageSize.Value;
             }
 
-            var products = await _productService.GetAllAsync(pageNumber, pageSize.Value);
-            var totalCount = await _productService.GetTotalCountAsync();
+            var (products, totalCount) = await _productService.GetAllAsync(pageNumber, pageSize.Value);
 
             return View(ProductViewModel.FromDto(products, pageNumber, pageSize.Value, totalCount));
         }

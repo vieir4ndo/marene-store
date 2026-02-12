@@ -15,5 +15,6 @@ namespace MareneStore.Infrastructure.Data.Interfaces
         void Update(Order entity);
         void Remove(Order entity);
         Task<int> SaveChangesAsync();
+        Task<int> GetTotalCountAsync();
     }
 }

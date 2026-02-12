@@ -8,7 +8,7 @@ namespace MareneStore.Application.Interfaces
     public interface IStockService
     {
         Task<StockDto> CreateStockAsync(Guid productId);
-        Task<List<StockDto>> GetAllAsync(int pageNumber = 1, int pageSize = 10);
+        Task<(List<StockDto>, int)> GetAllAsync(int pageNumber = 1, int pageSize = 10);
         Task RemoveByProductIdAsync(Guid productId);
     }
 }

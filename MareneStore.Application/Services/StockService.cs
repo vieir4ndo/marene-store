@@ -28,9 +28,10 @@ namespace MareneStore.Application.Services
             return StockDto.FromEntity(stock);
         }
 
-        public async Task<List<StockDto>> GetAllAsync(int pageNumber, int pageSize)
+        public async Task<(List<StockDto>, int)> GetAllAsync(int pageNumber, int pageSize)
         {
             var stocks = await _repository.GetAllAsync(pageNumber, pageSize);
+            var totalCount = await _repository.GetTotalCountAsync();
 
             var outputStocks = new List<StockDto>();
 
@@ -39,7 +40,7 @@ namespace MareneStore.Application.Services
                 outputStocks.Add(StockDto.FromEntity(s));
             }
 
-            return outputStocks;
+            return (outputStocks, totalCount);
         }
 
         public async Task RemoveByProductIdAsync(Guid productId)

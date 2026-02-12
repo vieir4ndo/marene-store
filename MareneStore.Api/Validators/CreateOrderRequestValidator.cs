@@ -7,14 +7,6 @@ namespace MareneStore.Api.Validators
     {
         public CreateOrderRequestValidator()
         {
-            RuleFor(x => x.UserName)
-                .NotEmpty()
-                .WithMessage("UserName is required.");
-
-            RuleFor(x => x.UserEmail)
-                .NotEmpty()
-                .WithMessage("UserEmail is required.");
-
             RuleFor(x => x.UserShippingAddress)
             .NotEmpty()
             .WithMessage("UserShippingAddress is required.");

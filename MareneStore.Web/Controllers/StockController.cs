@@ -16,9 +16,10 @@ namespace MareneStore.Web.Controllers
         }
 
         [HttpGet]
+        //todo : implement pagination
         public async Task<ActionResult> Index()
         {
-            var stocks = await _stockService.GetAllAsync();
+            var (stocks, _) = await _stockService.GetAllAsync();
 
             return View(StockViewModel.FromDto(stocks));
         }

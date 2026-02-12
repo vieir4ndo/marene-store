@@ -10,6 +10,17 @@ namespace MareneStore.Api.Responses
         public List<string> Errors { get; set; }
         public int? PageNumber { get; set; } = null;
         public int? PageSize { get; set; } = null;
+        public int? TotalCount { get; set; } = null;
+
+        public static ApiResponse CreateSuccess()
+        {
+            return new ApiResponse()
+            {
+                Success = true,
+                Data = null,
+                Errors = null
+            };
+        }
 
         public static ApiResponse CreateSuccess(object data)
         {
@@ -21,7 +32,7 @@ namespace MareneStore.Api.Responses
             };
         }
 
-        public static ApiResponse CreateSuccess(object data, int pageNumber, int pageSize)
+        public static ApiResponse CreateSuccess(object data, int pageNumber, int pageSize, int totalCount)
         {
             return new ApiResponse()
             {
@@ -29,7 +40,8 @@ namespace MareneStore.Api.Responses
                 Data = data,
                 Errors = null,
                 PageNumber = pageNumber,
-                PageSize = pageSize
+                PageSize = pageSize,
+                TotalCount = totalCount
             };
         }
 

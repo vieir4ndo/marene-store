@@ -101,10 +101,11 @@ namespace MareneStore.Application.Services
             return OrderDto.FromEntity(createdOrder);
         }
 
-        public async Task<List<OrderDto>> GetAllAsync(int pageNumber = 1, int pageSize = 10)
+        public async Task<(List<OrderDto>, int)> GetAllAsync(int pageNumber = 1, int pageSize = 10)
         {
             var orders = await _orderRepository.GetAllAsync(pageNumber, pageSize);
-            return orders.ToList().ConvertAll(OrderDto.FromEntity);
+            var totalCount = await _orderRepository.GetTotalCountAsync();
+            return (orders.ToList().ConvertAll(OrderDto.FromEntity), totalCount);
         }
 
         public async Task<OrderDto> GetByIdAsync(Guid id)
