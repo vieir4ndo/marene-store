@@ -1,6 +1,7 @@
 ﻿using MareneStore.Application.Dtos;
 using MareneStore.Application.Interfaces;
 using MareneStore.Domain.Entities;
+using MareneStore.Domain.Exceptions;
 using MareneStore.Infrastructure.Data.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -27,9 +28,10 @@ namespace MareneStore.Application.Services
             return StockDto.FromEntity(stock);
         }
 
-        public async Task<List<StockDto>> GetAllAsync(int pageNumber, int pageSize)
+        public async Task<(List<StockDto>, int)> GetAllAsync(int pageNumber, int pageSize)
         {
             var stocks = await _repository.GetAllAsync(pageNumber, pageSize);
+            var totalCount = await _repository.GetTotalCountAsync();
 
             var outputStocks = new List<StockDto>();
 
@@ -38,7 +40,19 @@ namespace MareneStore.Application.Services
                 outputStocks.Add(StockDto.FromEntity(s));
             }
 
-            return outputStocks;
+            return (outputStocks, totalCount);
+        }
+
+        public async Task RemoveByProductIdAsync(Guid productId)
+        {
+            var stock = await _repository.GetByProductIdAsync(productId);
+            if (stock == null)
+            {
+                throw new NotFoundException();
+            }
+
+            _repository.Remove(stock);
+            await _repository.SaveChangesAsync();
         }
     }
 }

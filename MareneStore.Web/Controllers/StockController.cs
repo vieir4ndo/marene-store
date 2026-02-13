@@ -1,5 +1,6 @@
 ﻿using MareneStore.Application.Interfaces;
 using MareneStore.Web.Models;
+using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -14,11 +15,28 @@ namespace MareneStore.Web.Controllers
             _stockService = stockService;
         }
 
-        public async Task<ActionResult> Index()
+        [HttpGet]
+        public async Task<ActionResult> Index(int pageNumber = 1, int? pageSize = null)
         {
-            var stocks = await _stockService.GetAllAsync();
+            if (!pageSize.HasValue)
+            {
+                pageSize = Session["PageSize"] != null ? (int)Session["PageSize"] : 4;
+            }
+            else
+            {
+                Session["PageSize"] = pageSize.Value;
+            }
 
-            return View(StockViewModel.FromDto(stocks));
+            var (stocks, totalCount) = await _stockService.GetAllAsync(pageNumber, pageSize.Value);
+
+            return View(StockViewModel.FromDto(stocks, pageNumber, pageSize.Value, totalCount));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> RemoveByProductId(Guid productId)
+        {
+            await _stockService.RemoveByProductIdAsync(productId);
+            return RedirectToAction("Index");
         }
     }
 }

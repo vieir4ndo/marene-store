@@ -2,7 +2,10 @@
 using MareneStore.Api.Requests;
 using MareneStore.Api.Responses;
 using MareneStore.Application.Interfaces;
+using MareneStore.Domain.Enums;
+using MareneStore.Domain.Exceptions;
 using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web.Http;
 
@@ -24,7 +27,10 @@ namespace MareneStore.Api.Controllers
         public async Task<IHttpActionResult> CreateOrder([FromBody] OrderRequest request)
         {
             request.ValidateCreation();
-            var order = await _orderService.CreateOrderAsync(request.ToDto());
+            var identity = (ClaimsIdentity)User.Identity;
+            var userEmail = identity.FindFirst(ClaimTypes.Email)?.Value;
+            var userName = identity.FindFirst(ClaimTypes.Name)?.Value;
+            var order = await _orderService.CreateOrderAsync(request.ToDto(userEmail, userName));
             return Ok(ApiResponse.CreateSuccess(order));
         }
 
@@ -33,30 +39,43 @@ namespace MareneStore.Api.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IHttpActionResult> GetAllOrders([FromUri] int pageNumber = 1, [FromUri] int pageSize = 10)
         {
-            var orders = await _orderService.GetAllAsync(pageNumber, pageSize);
-            return Ok(ApiResponse.CreateSuccess(orders, pageNumber, pageSize));
+            var (orders, totalCount) = await _orderService.GetAllAsync(pageNumber, pageSize);
+            return Ok(ApiResponse.CreateSuccess(orders, pageNumber, pageSize, totalCount));
         }
 
         [HttpGet]
         [Route("{orderId}")]
         [Authorize]
-        //TODO: Add authorization check to ensure users can only access their own orders unless they are admins
-        //TODO: Add another get all to get all orders for the currently authenticated user
         public async Task<IHttpActionResult> GetOrderById(Guid orderId)
         {
             var order = await _orderService.GetByIdAsync(orderId);
+            var identity = (ClaimsIdentity)User.Identity;
+            var userEmail = identity.FindFirst(ClaimTypes.Email)?.Value;
+            if (order.UserEmail != userEmail)
+            {
+                throw new UnauthorizedException("You are not authorized to access this order");
+            }
             return Ok(ApiResponse.CreateSuccess(order));
         }
 
         [HttpPatch]
         [Route("{orderId}")]
-        [Authorize]
-        //TODO: Add authorization check to ensure users can only update their own orders unless they are admins
-        // Also validate that users can only update to certain statuses (e.g. users can only cancel their own orders, but not mark them as shipped)
+        [Authorize(Roles = "admin")]
         public async Task<IHttpActionResult> UpdateOrderStatus(Guid orderId, [FromBody] UpdateOrderStatusRequest request)
         {
             request.Validate();
             var order = await _orderService.UpdateOrderStatusAsync(orderId, request.Status);
+            return Ok(ApiResponse.CreateSuccess(order));
+        }
+
+        [HttpPatch]
+        [Route("{orderId}/cancel")]
+        [Authorize]
+        public async Task<IHttpActionResult> CancelOrder(Guid orderId)
+        {
+            var identity = (ClaimsIdentity)User.Identity;
+            var userEmail = identity.FindFirst(ClaimTypes.Email)?.Value;
+            var order = await _orderService.UpdateOrderStatusAsync(orderId, OrderStatus.Cancelled, userEmail);
             return Ok(ApiResponse.CreateSuccess(order));
         }
     }

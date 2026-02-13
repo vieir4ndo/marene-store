@@ -64,5 +64,10 @@ namespace MareneStore.Infrastructure.Data.Repositories
         {
             return await _context.SaveChangesAsync();
         }
+
+        public Task<int> GetTotalCountAsync()
+        {
+            return _dbSet.CountAsync();
+        }
     }
 }

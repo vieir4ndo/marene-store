@@ -45,6 +45,17 @@ namespace MareneStore.Api.App_Start
                     Errors = new System.Collections.Generic.List<string>() { cfx.Message }
                 });
             }
+            else if (ex is UnauthorizedException)
+            {
+                context.Response = context.Request.CreateResponse(
+                HttpStatusCode.Unauthorized,
+                new ApiResponse()
+                {
+                    Success = false,
+                    Data = null,
+                    Errors = new System.Collections.Generic.List<string>() { ex.Message }
+                });
+            }
             else
             {
                 context.Response = context.Request.CreateResponse(

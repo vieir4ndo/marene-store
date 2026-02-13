@@ -1,4 +1,4 @@
-@model MareneStore.Web.Models.StockViewModel
+﻿@model MareneStore.Web.Models.StockViewModel
 @{
     ViewBag.Title = "Stock Page";
 }
@@ -11,29 +11,55 @@
             <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 d-flex justify-content-center">
                 <div class="card w-100" style="font-size: 0.9rem;">
                     <div class="row no-gutters">
-
                         <div class="col-4 d-flex justify-content-center align-items-center">
                             <img src="@item.ImageUrl"
                                  class="card-img"
                                  alt="@item.ProductName"
                                  style="width:100%; height:auto; object-fit:cover;">
                         </div>
-
                         <div class="col-8">
                             <div class="card-body">
                                 <h5 class="card-title">@item.ProductName</h5>
                                 <p class="card-text">
                                     <strong>Quantity:</strong> @item.ProductQuantity
                                 </p>
-                                <button class="btn btn-success btn-sm">
-                                    Mark as Bought
-                                </button>
+                                <form action="@Url.Action("RemoveByProductId", "Stock")" method="post" style="display:inline;">
+                                    <input type="hidden" name="productId" value="@item.ProductId" />
+                                    <button type="submit" class="btn btn-success btn-sm">Mark as Bought</button>
+                                </form>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
         }
     </div>
+
+    <div class="d-flex justify-content-between align-items-center mt-4">
+        <div>
+            <label for="pageSize" class="mr-2">Page Size:</label>
+            <select id="pageSize" class="form-control d-inline-block w-auto" onchange="changePageSize(this.value)">
+                <option value="4" @(Model.PageSize == 4 ? "selected" : "")>4</option>
+                <option value="8" @(Model.PageSize == 8 ? "selected" : "")>8</option>
+                <option value="16" @(Model.PageSize == 16 ? "selected" : "")>16</option>
+            </select>
+        </div>
+        <nav>
+            <ul class="pagination mb-0">
+                <li class="page-item @(Model.PageNumber <= 1 ? "disabled" : "")">
+                    <a class="page-link" href="@Url.Action("Index", "Stock", new { pageNumber = Model.PageNumber - 1, pageSize = Model.PageSize })">❮</a>
+                </li>
+                <li class="page-item @(Model.PageNumber * Model.PageSize >= Model.TotalCount ? "disabled" : "")">
+                    <a class="page-link" href="@Url.Action("Index", "Stock", new { pageNumber = Model.PageNumber + 1, pageSize = Model.PageSize })">❯</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
 </div>
+
+<script>
+    function changePageSize(pageSize) {
+        const url = '@Url.Action("Index", "Stock")';
+        window.location.href = `${url}?pageNumber=1&pageSize=${pageSize}`;
+    }
+</script>

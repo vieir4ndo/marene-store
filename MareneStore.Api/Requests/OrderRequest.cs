@@ -5,8 +5,6 @@ namespace MareneStore.Api.Requests
 {
     public class OrderRequest
     {
-        public string UserName { get; set; }
-        public string UserEmail { get; set; }
         public string UserShippingAddress { get; set; }
         public List<OrderDetailRequest> Details { get; set; }
 
@@ -24,12 +22,12 @@ namespace MareneStore.Api.Requests
             }
         }
 
-        public OrderDto ToDto()
+        public OrderDto ToDto(string userEmail, string userName)
         {
             return new OrderDto
             {
-                UserName = this.UserName,
-                UserEmail = this.UserEmail,
+                UserName = userName,
+                UserEmail = userEmail,
                 UserShippingAddress = this.UserShippingAddress,
                 Details = this.Details.ConvertAll(d => d.ToDto())
             };

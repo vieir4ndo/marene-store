@@ -9,7 +9,7 @@ namespace MareneStore.Application.Interfaces
     {
         Task<ProductDto> CreateProductAsync(ProductDto product);
         Task<ProductDto> GetByIdAsync(Guid id);
-        Task<List<ProductDto>> GetAllAsync(int pageNumber = 1, int pageSize = 10);
+        Task<(List<ProductDto>, int)> GetAllAsync(int pageNumber = 1, int pageSize = 10);
         Task<ProductDto> UpdateProductAsync(ProductDto product);
         Task<List<ProductDto>> GetActiveProductsByIdsAsync(List<Guid> ids);
         Task<List<ProductDto>> GetProductsByIdsAsync(List<Guid> ids);

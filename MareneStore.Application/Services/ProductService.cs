@@ -42,9 +42,10 @@ namespace MareneStore.Application.Services
             return products.ToList().ConvertAll(p => ProductDto.FromEntity(p));
         }
 
-        public async Task<List<ProductDto>> GetAllAsync(int pageNumber = 1, int pageSize = 10)
+        public async Task<(List<ProductDto>, int)> GetAllAsync(int pageNumber = 1, int pageSize = 10)
         {
             var products = await _productRepository.GetAllAsync(pageNumber, pageSize);
+            var count = await _productRepository.GetTotalCountAsync();
 
             var outputProducts = new List<ProductDto>();
 
@@ -53,7 +54,7 @@ namespace MareneStore.Application.Services
                 outputProducts.Add(ProductDto.FromEntity(product));
             }
 
-            return outputProducts;
+            return (outputProducts, count);
         }
 
         public async Task<ProductDto> GetByIdAsync(Guid id)

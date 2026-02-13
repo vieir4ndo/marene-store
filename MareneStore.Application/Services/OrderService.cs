@@ -2,6 +2,7 @@
 using MareneStore.Application.Interfaces;
 using MareneStore.Domain.Entities;
 using MareneStore.Domain.Enums;
+using MareneStore.Domain.Exceptions;
 using MareneStore.Infrastructure.Data.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -23,13 +24,18 @@ namespace MareneStore.Application.Services
             _stockService = stockService;
         }
 
-        public async Task<OrderDto> UpdateOrderStatusAsync(Guid id, OrderStatus status)
+        public async Task<OrderDto> UpdateOrderStatusAsync(Guid id, OrderStatus status, string userEmail = null)
         {
             var order = await _orderRepository.GetByIdAsync(id);
 
             if (order == null)
             {
                 throw new Domain.Exceptions.NotFoundException();
+            }
+
+            if (userEmail != null && order.UserEmail != userEmail)
+            {
+                throw new ConflictException($"User {userEmail} cannot update this order because it belongs to another user");
             }
 
             var (success, errorMessage) = order.UpdateStatus(status);
@@ -90,7 +96,7 @@ namespace MareneStore.Application.Services
                     p.IsActive = false;
                 }
 
-                if (p.Stock <=2)
+                if (p.Stock <= 2)
                 {
                     await _stockService.CreateStockAsync(p.Id);
                 }
@@ -101,10 +107,11 @@ namespace MareneStore.Application.Services
             return OrderDto.FromEntity(createdOrder);
         }
 
-        public async Task<List<OrderDto>> GetAllAsync(int pageNumber = 1, int pageSize = 10)
+        public async Task<(List<OrderDto>, int)> GetAllAsync(int pageNumber = 1, int pageSize = 10)
         {
             var orders = await _orderRepository.GetAllAsync(pageNumber, pageSize);
-            return orders.ToList().ConvertAll(OrderDto.FromEntity);
+            var totalCount = await _orderRepository.GetTotalCountAsync();
+            return (orders.ToList().ConvertAll(OrderDto.FromEntity), totalCount);
         }
 
         public async Task<OrderDto> GetByIdAsync(Guid id)

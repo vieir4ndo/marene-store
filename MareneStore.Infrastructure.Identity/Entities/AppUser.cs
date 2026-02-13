@@ -21,7 +21,8 @@ namespace MareneStore.Infrastructure.Identity.Entities
             return new AppUserDto
             {
                 Id = this.Id,
-                Username = this.UserName
+                Username = this.UserName,
+                Email = this.Email
             };
         }
     }

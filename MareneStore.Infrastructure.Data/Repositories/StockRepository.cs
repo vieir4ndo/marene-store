@@ -49,6 +49,11 @@ namespace MareneStore.Infrastructure.Data.Repositories
                 .FirstOrDefaultAsync(x => x.ProductId == id);
         }
 
+        public Task<int> GetTotalCountAsync()
+        {
+            return _dbSet.CountAsync();
+        }
+
         public void Remove(Stock entity)
         {
             _dbSet.Remove(entity);
