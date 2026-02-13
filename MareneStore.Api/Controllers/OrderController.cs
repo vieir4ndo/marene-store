@@ -2,6 +2,7 @@
 using MareneStore.Api.Requests;
 using MareneStore.Api.Responses;
 using MareneStore.Application.Interfaces;
+using MareneStore.Domain.Enums;
 using MareneStore.Domain.Exceptions;
 using System;
 using System.Security.Claims;
@@ -45,7 +46,6 @@ namespace MareneStore.Api.Controllers
         [HttpGet]
         [Route("{orderId}")]
         [Authorize]
-        //TODO: Add another get all to get all orders for the currently authenticated user
         public async Task<IHttpActionResult> GetOrderById(Guid orderId)
         {
             var order = await _orderService.GetByIdAsync(orderId);
@@ -60,13 +60,22 @@ namespace MareneStore.Api.Controllers
 
         [HttpPatch]
         [Route("{orderId}")]
-        [Authorize]
-        //TODO: Add authorization check to ensure users can only update their own orders unless they are admins
-        // Also validate that users can only update to certain statuses (e.g. users can only cancel their own orders, but not mark them as shipped)
+        [Authorize(Roles = "admin")]
         public async Task<IHttpActionResult> UpdateOrderStatus(Guid orderId, [FromBody] UpdateOrderStatusRequest request)
         {
             request.Validate();
             var order = await _orderService.UpdateOrderStatusAsync(orderId, request.Status);
+            return Ok(ApiResponse.CreateSuccess(order));
+        }
+
+        [HttpPatch]
+        [Route("{orderId}/cancel")]
+        [Authorize]
+        public async Task<IHttpActionResult> CancelOrder(Guid orderId)
+        {
+            var identity = (ClaimsIdentity)User.Identity;
+            var userEmail = identity.FindFirst(ClaimTypes.Email)?.Value;
+            var order = await _orderService.UpdateOrderStatusAsync(orderId, OrderStatus.Cancelled, userEmail);
             return Ok(ApiResponse.CreateSuccess(order));
         }
     }
