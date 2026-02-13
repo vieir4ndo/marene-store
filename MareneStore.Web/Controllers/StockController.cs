@@ -20,11 +20,11 @@ namespace MareneStore.Web.Controllers
         {
             if (!pageSize.HasValue)
             {
-                pageSize = Session["PageSize"] != null ? (int)Session["PageSize"] : 4;
+                pageSize = Session["StockPageSize"] != null ? (int)Session["StockPageSize"] : 4;
             }
             else
             {
-                Session["PageSize"] = pageSize.Value;
+                Session["StockPageSize"] = pageSize.Value;
             }
 
             var (stocks, totalCount) = await _stockService.GetAllAsync(pageNumber, pageSize.Value);

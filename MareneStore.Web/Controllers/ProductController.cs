@@ -23,11 +23,11 @@ namespace MareneStore.Web.Controllers
         {
             if (!pageSize.HasValue)
             {
-                pageSize = Session["PageSize"] != null ? (int)Session["PageSize"] : 10;
+                pageSize = Session["ProductPageSize"] != null ? (int)Session["ProductPageSize"] : 10;
             }
             else
             {
-                Session["PageSize"] = pageSize.Value;
+                Session["ProductPageSize"] = pageSize.Value;
             }
 
             var (products, totalCount) = await _productService.GetAllAsync(pageNumber, pageSize.Value);
