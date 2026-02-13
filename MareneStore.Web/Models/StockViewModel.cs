@@ -6,12 +6,18 @@ namespace MareneStore.Web.Models
 {
     public class StockViewModel
     {
+        public int PageNumber { get; set; }
+        public int PageSize { get; set; }
+        public int TotalCount { get; set; }
         public List<StockItemViewModel> Items { get; set; }
 
-        public static StockViewModel FromDto(List<StockDto> dtos)
+        public static StockViewModel FromDto(List<StockDto> dtos, int pageNumber, int pageSize, int totalCount)
         {
             return new StockViewModel
             {
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                TotalCount = totalCount,
                 Items = dtos.ConvertAll(dto => new StockItemViewModel
                 {
                     ProductName = dto.ProductName,
