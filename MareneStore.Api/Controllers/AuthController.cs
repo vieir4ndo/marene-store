@@ -1,6 +1,7 @@
 ﻿using MareneStore.Api.Requests;
 using MareneStore.Api.Responses;
 using MareneStore.Application.Interfaces;
+using MareneStore.Domain.Exceptions;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -40,7 +41,10 @@ namespace MareneStore.Api.Controllers
             request.Validate();
 
             var userId = await _userService.AuthenticateAsync(request.Username, request.Password);
-            if (userId == null) return Unauthorized();
+            if (userId == null)
+            {
+                throw new UnauthorizedException("Unauthorized");
+            }
 
             var user = await _userService.GetByIdAsync(userId);
 

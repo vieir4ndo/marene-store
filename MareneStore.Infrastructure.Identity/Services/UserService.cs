@@ -45,7 +45,7 @@ namespace MareneStore.Infrastructure.Identity
             {
                 throw new NotFoundException();
             }
-            return new AppUserDto { Id = user.Id, Username = user.UserName };
+            return new AppUserDto { Id = user.Id, Username = user.UserName, Email = user.Email };
         }
 
         public async Task<IList<string>> GetUserRolesAsync(string userId)
