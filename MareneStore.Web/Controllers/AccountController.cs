@@ -51,13 +51,22 @@ namespace MareneStore.Web.Controllers
             {
                 case SignInStatus.Success:
                     var user = await UserManager.FindByEmailAsync(model.Email);
-                    // Si es Admin
-                    if (await UserManager.IsInRoleAsync(user.Id, "Admin"))
+                    bool isAdmin = await UserManager.IsInRoleAsync(user.Id, "Admin");
+
+                    // Si la URL seleccionada contiene "Product"
+                    if (!string.IsNullOrEmpty(returnUrl) && returnUrl.Contains("Product"))
                     {
-                        return RedirectToAction("Index", "Product");
+                        if (isAdmin)
+                        {
+                            return RedirectToAction("Index", "Product");
+                        }
+                        else
+                        {
+                            return RedirectToAction("ShopIndex", "Product");
+                        }
                     }
-                    // Si NO es Admin
-                    return RedirectToAction("ShopIndex", "Product");
+                    return RedirectToLocal(returnUrl);
+
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
