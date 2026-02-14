@@ -8,7 +8,7 @@ using static MareneStore.Web.Models.ProductViewModel;
 
 namespace MareneStore.Web.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
@@ -19,6 +19,7 @@ namespace MareneStore.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Index(int pageNumber = 1, int? pageSize = null)
         {
             if (!pageSize.HasValue)
@@ -36,6 +37,24 @@ namespace MareneStore.Web.Controllers
         }
 
         [HttpGet]
+        public async Task<ActionResult> ShopIndex(int pageNumber = 1, int? pageSize = null)
+        {
+            if (!pageSize.HasValue)
+            {
+                pageSize = Session["ProductPageSize"] != null ? (int)Session["ProductPageSize"] : 10;
+            }
+            else
+            {
+                Session["ProductPageSize"] = pageSize.Value;
+            }
+
+            var (products, totalCount) = await _productService.GetAllAsync(pageNumber, pageSize.Value);
+
+            return View(ProductViewModel.FromDto(products, pageNumber, pageSize.Value, totalCount));
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Edit(Guid id)
         {
             var productDto = await _productService.GetByIdAsync(id);
@@ -60,6 +79,7 @@ namespace MareneStore.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Edit(ProductItemViewModel model)
         {
             if (!ModelState.IsValid)
@@ -85,6 +105,7 @@ namespace MareneStore.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             return View(new ProductItemViewModel());
@@ -92,6 +113,7 @@ namespace MareneStore.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Create(ProductItemViewModel model)
         {
             if (!ModelState.IsValid)
