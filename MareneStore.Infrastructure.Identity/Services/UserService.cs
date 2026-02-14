@@ -21,7 +21,7 @@ namespace MareneStore.Infrastructure.Identity
 
         public async Task<AppUserDto> RegisterAsync(string username, string password)
         {
-            var user = new AppUser { UserName = username };
+            var user = new AppUser { UserName = username, Email = username };
             var result = await _userManager.CreateAsync(user, password);
 
             if (!result.Succeeded)

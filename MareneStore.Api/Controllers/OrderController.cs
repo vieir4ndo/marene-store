@@ -44,6 +44,17 @@ namespace MareneStore.Api.Controllers
         }
 
         [HttpGet]
+        [Route("my")]
+        [Authorize]
+        public async Task<IHttpActionResult> GetMyOrders([FromUri] int pageNumber = 1, [FromUri] int pageSize = 10)
+        {
+            var identity = (ClaimsIdentity)User.Identity;
+            var userEmail = identity.FindFirst(ClaimTypes.Email)?.Value;
+            var (orders, totalCount) = await _orderService.GetOrdersByUserEmailAsync(userEmail, pageNumber, pageSize);
+            return Ok(ApiResponse.CreateSuccess(orders, pageNumber, pageSize, totalCount));
+        }
+
+        [HttpGet]
         [Route("{orderId}")]
         [Authorize]
         public async Task<IHttpActionResult> GetOrderById(Guid orderId)
