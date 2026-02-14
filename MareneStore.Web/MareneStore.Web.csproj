@@ -182,6 +182,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\StockController.cs" />
     <Compile Include="Global.asax.cs">
@@ -190,7 +191,9 @@
     <Compile Include="Managers\ApplicationSignInManager.cs" />
     <Compile Include="Managers\ApplicationUserManager.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\EditOrderStatusViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\OrderViewModel.cs" />
     <Compile Include="Models\ProductViewModel.cs" />
     <Compile Include="Models\StockViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -271,6 +274,8 @@
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Product\Edit.cshtml" />
     <Content Include="Views\Product\Create.cshtml" />
+    <Content Include="Views\Order\Index.cshtml" />
+    <Content Include="Views\Order\EditStatus.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -304,6 +309,10 @@
     <ProjectReference Include="..\MareneStore.Application\MareneStore.Application.csproj">
       <Project>{3904766c-a613-4b2f-a87f-e8823aa646e5}</Project>
       <Name>MareneStore.Application</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MareneStore.Domain\MareneStore.Domain.csproj">
+      <Project>{9978DB81-C1D2-4055-BF71-812A44E68D1A}</Project>
+      <Name>MareneStore.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="..\MareneStore.Infrastructure.Data\MareneStore.Infrastructure.Data.csproj">
       <Project>{7DFEE717-EC8A-4DBA-A16D-10E0258CB2B0}</Project>

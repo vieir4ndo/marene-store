@@ -1,0 +1,72 @@
+﻿@using MareneStore.Domain.Enums;
+@model MareneStore.Web.Models.OrderViewModel
+@{
+    ViewBag.Title = "My Orders";
+}
+
+<div class="container">
+    <h1 class="mb-4">My Orders</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Total Amount</th>
+                <th>Status</th>
+                <th>Shipping Address</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td>@item.Date.ToString("yyyy-MM-dd")</td>
+                    <td>@item.TotalAmount.ToString("C")</td>
+                    <td>@item.Status</td>
+                    <td>@item.UserShippingAddress</td>
+                    <td>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a href="@Url.Action("EditStatus", "Order", new { orderId = item.Id })" class="btn btn-primary btn-sm">Edit Status</a>
+                        }
+                        @if (!User.IsInRole("Admin") && item.Status == OrderStatus.Pending)
+                        {
+                            <form action="@Url.Action("CancelOrder", "Order")" method="post" style="display:inline;">
+                                <input type="hidden" name="orderId" value="@item.Id" />
+                                <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
+                            </form>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="d-flex justify-content-between align-items-center mt-4">
+        <div>
+            <label for="pageSize" class="mr-2">Page Size:</label>
+            <select id="pageSize" class="form-control d-inline-block w-auto" onchange="changePageSize(this.value)">
+                <option value="5" @(Model.PageSize == 5 ? "selected" : "")>5</option>
+                <option value="10" @(Model.PageSize == 10 ? "selected" : "")>10</option>
+                <option value="20" @(Model.PageSize == 20 ? "selected" : "")>20</option>
+            </select>
+        </div>
+        <nav>
+            <ul class="pagination mb-0">
+                <li class="page-item @(Model.PageNumber <= 1 ? "disabled" : "")">
+                    <a class="page-link" href="@Url.Action("Index", "Order", new { pageNumber = Model.PageNumber - 1, pageSize = Model.PageSize })">❮</a>
+                </li>
+                <li class="page-item @(Model.PageNumber * Model.PageSize >= Model.TotalCount ? "disabled" : "")">
+                    <a class="page-link" href="@Url.Action("Index", "Order", new { pageNumber = Model.PageNumber + 1, pageSize = Model.PageSize })">❯</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<script>
+    function changePageSize(pageSize) {
+        const url = '@Url.Action("Index", "Order")';
+        window.location.href = `${url}?pageNumber=1&pageSize=${pageSize}`;
+    }
+</script>

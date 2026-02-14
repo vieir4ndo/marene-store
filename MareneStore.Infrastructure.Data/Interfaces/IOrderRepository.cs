@@ -16,5 +16,6 @@ namespace MareneStore.Infrastructure.Data.Interfaces
         void Remove(Order entity);
         Task<int> SaveChangesAsync();
         Task<int> GetTotalCountAsync();
+        Task<(IEnumerable<Order>, int)> GetByUserEmailAsync(string email, int pageNumber = 1, int pageSize = 10);
     }
 }

@@ -1,0 +1,33 @@
+@using MareneStore.Domain.Enums;
+@model MareneStore.Web.Models.EditOrderStatusViewModel
+@{
+    ViewBag.Title = "Edit Order Status";
+}
+
+<div class="container">
+    <h1 class="mb-4">Edit Order Status</h1>
+    <form action="@Url.Action("EditStatus", "Order")" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="OrderId" value="@Model.OrderId" />
+
+        <div class="form-group">
+            <label for="CurrentStatus">Current Status</label>
+            <input type="text" class="form-control" id="CurrentStatus" value="@Model.CurrentStatus" readonly />
+        </div>
+
+        <div class="form-group">
+            <label for="NewStatus">New Status</label>
+            <select class="form-control" id="NewStatus" name="NewStatus">
+                @foreach (OrderStatus status in Model.AvailableStatuses)
+                {
+                    <option value="@status" @(status == Model.CurrentStatus ? "selected" : "")>@status</option>
+                }
+            </select>
+        </div>
+
+        <div class="mt-4">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a href="@Url.Action("Index", "Order")" class="btn btn-secondary ml-2">Cancel</a>
+        </div>
+    </form>
+</div>

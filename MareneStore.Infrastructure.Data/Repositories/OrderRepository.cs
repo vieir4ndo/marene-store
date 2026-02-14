@@ -23,7 +23,7 @@ namespace MareneStore.Infrastructure.Data.Repositories
         public async Task<IEnumerable<Order>> GetAllAsync(int pageNumber = 1, int pageSize = 10)
         {
             return await _dbSet
-                .OrderBy(x=>x.Id)
+                .OrderBy(x => x.Id)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
@@ -32,7 +32,7 @@ namespace MareneStore.Infrastructure.Data.Repositories
         public async Task<Order> GetByIdAsync(Guid id)
         {
             return await _dbSet
-                .Include(o=>o.Details)
+                .Include(o => o.Details)
             .Include(o => o.Details.Select(d => d.Product))
             .FirstOrDefaultAsync(o => o.Id == id);
         }
@@ -68,6 +68,18 @@ namespace MareneStore.Infrastructure.Data.Repositories
         public Task<int> GetTotalCountAsync()
         {
             return _dbSet.CountAsync();
+        }
+
+        public async Task<(IEnumerable<Order>, int)> GetByUserEmailAsync(string email, int pageNumber = 1, int pageSize = 10)
+        {
+            var query = _dbSet.Where(o => o.UserEmail == email);
+            var totalCountTask = await query.CountAsync();
+            var orders = await query
+                .OrderBy(x => x.Id)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+            return (orders, totalCountTask);
         }
     }
 }

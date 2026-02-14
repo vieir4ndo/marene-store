@@ -125,5 +125,12 @@ namespace MareneStore.Application.Services
 
             return OrderDto.FromEntity(order);
         }
+
+        public async Task<(List<OrderDto>, int)> GetOrdersByUserEmailAsync(string email, int pageNumber = 1, int pageSize = 10)
+        {
+            var (orders, totalCount) = await _orderRepository.GetByUserEmailAsync(email, pageNumber, pageSize);
+
+            return (orders.ToList().ConvertAll(OrderDto.FromEntity), totalCount);
+        }
     }
 }
