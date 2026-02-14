@@ -80,6 +80,7 @@ namespace MareneStore.Web.Controllers
 
             await _productService.UpdateProductAsync(productDto);
 
+            TempData["Message"] = "Product updated successfully.";
             return RedirectToAction("Index");
         }
 
@@ -110,6 +111,7 @@ namespace MareneStore.Web.Controllers
 
             await _productService.CreateProductAsync(productDto);
 
+            TempData["Message"] = "Product created successfully.";
             return RedirectToAction("Index");
         }
     }

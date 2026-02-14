@@ -25,7 +25,7 @@
                     <li>@Html.ActionLink("Product", "Index", "Product", new { area = "" }, new { @class = "nav-link" })</li>
                     <li>@Html.ActionLink("My Orders", "Index", "Order", new { area = "" }, new { @class = "nav-link" })</li>
                 </ul>
-                 @Html.Partial("_LoginPartial")
+                @Html.Partial("_LoginPartial")
             </div>
         </div>
     </nav>
@@ -40,5 +40,43 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    <!-- jQuery (obrigatório) -->
+    <script src="~/Scripts/jquery-3.7.1.min.js"></script>
+
+    <!-- Toastr -->
+    <link href="~/Content/toastr.min.css" rel="stylesheet" />
+    <script src="~/Scripts/toastr.min.js"></script>
+
+    <script>
+        toastr.options = {
+            "closeButton": true,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "timeOut": "4000"
+        };
+    </script>
+
+    @if (Session["ToastError"] != null)
+    {
+        var msg = Session["ToastError"].ToString();
+        Session.Remove("ToastError");
+
+        <script>
+     $(function () {
+         toastr.error('@msg');
+     });
+        </script>
+    }
+
+    @if (TempData["Message"] != null)
+    {
+        var msg = TempData["Message"];
+
+        <script>
+        $(function () {
+            toastr.success('@msg');
+        });
+        </script>
+    }
 </body>
 </html>

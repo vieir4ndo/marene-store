@@ -36,6 +36,7 @@ namespace MareneStore.Web.Controllers
         public async Task<ActionResult> RemoveByProductId(Guid productId)
         {
             await _stockService.RemoveByProductIdAsync(productId);
+            TempData["Message"] = "Stock entry removed successfully.";
             return RedirectToAction("Index");
         }
     }

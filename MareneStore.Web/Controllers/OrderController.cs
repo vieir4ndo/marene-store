@@ -38,6 +38,7 @@ namespace MareneStore.Web.Controllers
         public async Task<ActionResult> CancelOrder(Guid orderId)
         {
             await _orderService.UpdateOrderStatusAsync(orderId, OrderStatus.Cancelled, User.Identity.Name);
+            TempData["Message"] = "Order cancelled successfully.";
             return RedirectToAction("Index");
         }
 
@@ -73,6 +74,7 @@ namespace MareneStore.Web.Controllers
             }
 
             await _orderService.UpdateOrderStatusAsync(model.OrderId, model.NewStatus);
+            TempData["Message"] = "Order status updated successfully.";
             return RedirectToAction("Index");
         }
     }
