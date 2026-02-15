@@ -13,17 +13,37 @@ namespace MareneStore.Web.Models
 
         private const string CART_SESSION_KEY = "carrito";
 
-        public object BindModel(ControllerContext controllerContext,
-            ModelBindingContext bindingContext)
+        public object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
         {
-            List<ShoppingCartItem> shoppingCart =
-               (List<ShoppingCartItem>)controllerContext.HttpContext
-                                           .Session[CART_SESSION_KEY];
+            if (controllerContext == null)
+                throw new ArgumentNullException(nameof(controllerContext));
+
+            if (bindingContext == null)
+                throw new ArgumentNullException(nameof(bindingContext));
+
+            ShoppingCart shoppingCart = null;
+
+            try
+            {
+                shoppingCart = (ShoppingCart)controllerContext.HttpContext.Session[CART_SESSION_KEY];
+            }
+            catch
+            {
+                shoppingCart = null;
+            }
+
             if (shoppingCart == null)
             {
-                shoppingCart = new List<ShoppingCartItem>();
-                controllerContext.HttpContext
-                                .Session[CART_SESSION_KEY] = shoppingCart;
+                shoppingCart = new ShoppingCart
+                {
+                    Items = new List<ShoppingCartItem>()
+                };
+                controllerContext.HttpContext.Session[CART_SESSION_KEY] = shoppingCart;
+            }
+
+            if (shoppingCart.Items == null)
+            {
+                shoppingCart.Items = new List<ShoppingCartItem>();
             }
 
             return shoppingCart;
@@ -32,11 +52,11 @@ namespace MareneStore.Web.Models
         /// <summary>
         /// Guarda el carrito en la sesión (método auxiliar opcional)
         /// </summary>
-        public static void SaveCart(System.Web.HttpSessionStateBase session, Dictionary<Product, int> carrito)
+        public static void SaveCart(System.Web.HttpSessionStateBase session, ShoppingCart shoppingCart)
         {
-            if (session != null && carrito != null)
+            if (session != null && shoppingCart != null)
             {
-                session[CART_SESSION_KEY] = carrito;
+                session[CART_SESSION_KEY] = shoppingCart;
             }
         }
 

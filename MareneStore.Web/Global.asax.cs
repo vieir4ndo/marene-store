@@ -21,7 +21,7 @@ namespace MareneStore.Web
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             UnityConfig.RegisterComponents();
             ModelBinders.Binders.Add(
-                    typeof(List<ShoppingCartItem>),
+                    typeof(ShoppingCart),
                     new ShoppingCartModelBinder()
                 );
         }
@@ -30,31 +30,35 @@ namespace MareneStore.Web
         {
             var ex = Server.GetLastError();
 
-            if (ex is ValidationException vex)
+            if (HttpContext.Current?.Session != null)
             {
-                HttpContext.Current.Session["ToastError"] = vex.Errors.Count == 1
-                    ? vex.Errors.First()
-                    : string.Join(" ", vex.Errors);
-            }
-            else if (ex is NotFoundException)
-            {
-                HttpContext.Current.Session["ToastError"] = "Not found";
-            }
-            else if (ex is ConflictException cfx)
-            {
-                HttpContext.Current.Session["ToastError"] = cfx.Message;
-            }
-            else if (ex is UnauthorizedException)
-            {
-                HttpContext.Current.Session["ToastError"] = ex.Message;
-            }
-            else
-            {
-                HttpContext.Current.Session["ToastError"] = "An unexpected error occurred.";
+                if (ex is ValidationException vex)
+                {
+                    HttpContext.Current.Session["ToastError"] = vex.Errors.Count == 1
+                        ? vex.Errors.First()
+                        : string.Join(" ", vex.Errors);
+                }
+                else if (ex is NotFoundException)
+                {
+                    HttpContext.Current.Session["ToastError"] = "Not found";
+                }
+                else if (ex is ConflictException cfx)
+                {
+                    HttpContext.Current.Session["ToastError"] = cfx.Message;
+                }
+                else if (ex is UnauthorizedException)
+                {
+                    HttpContext.Current.Session["ToastError"] = ex.Message;
+                }
+                else
+                {
+                    HttpContext.Current.Session["ToastError"] = "An unexpected error occurred.";
+                }
             }
 
             Server.ClearError();
-            // Tenta pegar rota atual
+
+            // Intentar obtener la ruta actual
             var routeData = RouteTable.Routes.GetRouteData(new HttpContextWrapper(Context));
             string controller = "Home"; // fallback
             string action = "Index"; // fallback
@@ -67,7 +71,7 @@ namespace MareneStore.Web
                     action = routeData.Values["action"].ToString();
             }
 
-            // Redireciona para o Index do controller que originou o erro
+            // Redirigir al Index del controller que originó el error
             Response.Redirect($"~/{controller}/Index");
         }
     }
