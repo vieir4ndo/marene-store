@@ -1,15 +1,16 @@
 ﻿@using MareneStore.Domain.Enums;
 @model MareneStore.Web.Models.OrderViewModel
 @{
-    ViewBag.Title = "My Orders";
+    ViewBag.Title = "Orders";
 }
 
 <div class="container">
-    <h1 class="mb-4">My Orders</h1>
+    <h1 class="mb-4">Orders</h1>
     <table class="table table-striped">
         <thead>
             <tr>
                 <th>Date</th>
+                <th>User Email</th>
                 <th>Total Amount</th>
                 <th>Status</th>
                 <th>Shipping Address</th>
@@ -21,21 +22,12 @@
             {
                 <tr>
                     <td>@item.Date.ToString("yyyy-MM-dd")</td>
+                    <td>@item.UserEmail</td>
                     <td>@item.TotalAmount.ToString("C")</td>
                     <td>@item.Status</td>
                     <td>@item.UserShippingAddress</td>
                     <td>
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <a href="@Url.Action("EditStatus", "Order", new { orderId = item.Id })" class="btn btn-primary btn-sm">Edit Status</a>
-                        }
-                        @if (!User.IsInRole("Admin") && item.Status == OrderStatus.Pending)
-                        {
-                            <form action="@Url.Action("CancelOrder", "Order")" method="post" style="display:inline;">
-                                <input type="hidden" name="orderId" value="@item.Id" />
-                                <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
-                            </form>
-                        }
+                        <a href="@Url.Action("EditStatus", "Order", new { orderId = item.Id })" class="btn btn-primary btn-sm">Edit Status</a>
                     </td>
                 </tr>
             }

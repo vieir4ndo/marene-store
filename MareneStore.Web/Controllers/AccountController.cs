@@ -65,6 +65,18 @@ namespace MareneStore.Web.Controllers
                             return RedirectToAction("ShopIndex", "Product");
                         }
                     }
+                    // Si la URL seleccionada contiene "Order"
+                    if (!string.IsNullOrEmpty(returnUrl) && returnUrl.Contains("Order"))
+                    {
+                        if (isAdmin)
+                        {
+                            return RedirectToAction("Index", "Order");
+                        }
+                        else
+                        {
+                            return RedirectToAction("OrderIndex", "Order");
+                        }
+                    }
                     return RedirectToLocal(returnUrl);
 
                 case SignInStatus.LockedOut:

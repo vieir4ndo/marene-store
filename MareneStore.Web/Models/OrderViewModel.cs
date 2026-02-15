@@ -25,7 +25,8 @@ namespace MareneStore.Web.Models
                     Date = dto.Date,
                     TotalAmount = dto.TotalAmount,
                     Status = dto.Status,
-                    UserShippingAddress = dto.UserShippingAddress
+                    UserShippingAddress = dto.UserShippingAddress,
+                    UserEmail = dto.UserEmail
                 })
             };
         }
@@ -37,6 +38,7 @@ namespace MareneStore.Web.Models
             public decimal TotalAmount { get; set; }
             public OrderStatus Status { get; set; }
             public string UserShippingAddress { get; set; }
+            public string UserEmail { get; set; }
         }
     }
 }

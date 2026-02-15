@@ -1,7 +1,7 @@
-﻿using MareneStore.Application.Interfaces;
-using System.Web.Mvc;
+﻿using System;
 using System.Threading.Tasks;
-using System;
+using System.Web.Mvc;
+using MareneStore.Application.Interfaces;
 using MareneStore.Domain.Enums;
 using MareneStore.Web.Models;
 
@@ -18,7 +18,25 @@ namespace MareneStore.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Index(int pageNumber = 1, int? pageSize = null)
+        {
+            if (!pageSize.HasValue)
+            {
+                pageSize = Session["OrderPageSize"] != null ? (int)Session["OrderPageSize"] : 10;
+            }
+            else
+            {
+                Session["OrderPageSize"] = pageSize.Value;
+            }
+            var userEmail = User.Identity.Name;
+            var (orders, totalCount) = await _orderService.GetAllAsync(pageNumber, pageSize.Value);
+
+            return View(OrderViewModel.FromDto(orders, pageNumber, pageSize.Value, totalCount));
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> OrderIndex(int pageNumber = 1, int? pageSize = null)
         {
             if (!pageSize.HasValue)
             {
@@ -35,11 +53,16 @@ namespace MareneStore.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CancelOrder(Guid orderId)
+        public async Task<ActionResult> CancelOrder(Guid orderId, string returnAction)
         {
             await _orderService.UpdateOrderStatusAsync(orderId, OrderStatus.Cancelled, User.Identity.Name);
             TempData["Message"] = "Order cancelled successfully.";
-            return RedirectToAction("Index");
+            if (returnAction != nameof(Index) && returnAction != nameof(OrderIndex))
+            {
+                returnAction = nameof(OrderIndex);
+            }
+
+            return RedirectToAction(returnAction);
         }
 
         [HttpGet]
