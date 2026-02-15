@@ -1,0 +1,134 @@
+﻿@model MareneStore.Web.Models.CheckoutOrderViewModel
+
+@{
+    ViewBag.Title = "Checkout";
+}
+
+<div class="container mt-4">
+    <h2>🛒 Checkout</h2>
+
+    <div class="row mt-4">
+        <!-- Formulario de Checkout -->
+        <div class="col-md-7">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Shipping Information</h5>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm("Checkout", "Order", FormMethod.Post, new { @class = "needs-validation" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="row">
+                            <!-- Full Name -->
+                            <div class="col-md-6 mb-3">
+                                @Html.LabelFor(m => m.FullName, new { @class = "form-label" })
+                                @Html.TextBoxFor(m => m.FullName, new { @class = "form-control", placeholder = "John Doe" })
+                                @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "text-danger small" })
+                            </div>
+                            <!-- Email -->
+                            <div class="col-md-6 mb-3">
+                                @Html.LabelFor(m => m.CustomerEmail, "Email", new { @class = "form-label" })
+                                @Html.TextBoxFor(m => m.CustomerEmail, new { @class = "form-control", type = "email", placeholder = "john@example.com" })
+                                @Html.ValidationMessageFor(m => m.CustomerEmail, "", new { @class = "text-danger small" })
+                            </div>
+                            <!-- Address -->
+                            <div class="col-md-12 mb-3">
+                                @Html.LabelFor(m => m.ShippingAddress, "Street Address", new { @class = "form-label" })
+                                @Html.TextBoxFor(m => m.ShippingAddress, new { @class = "form-control", placeholder = "123 Main Street, Apt 4B" })
+                                @Html.ValidationMessageFor(m => m.ShippingAddress, "", new { @class = "text-danger small" })
+                            </div>
+                            <!-- City -->
+                            <div class="col-md-6 mb-3">
+                                @Html.LabelFor(m => m.City, new { @class = "form-label" })
+                                @Html.TextBoxFor(m => m.City, new { @class = "form-control", placeholder = "New York" })
+                                @Html.ValidationMessageFor(m => m.City, "", new { @class = "text-danger small" })
+                            </div>
+                            <!-- State -->
+                            <div class="col-md-6 mb-3">
+                                @Html.LabelFor(m => m.State, "State/Province", new { @class = "form-label" })
+                                @Html.TextBoxFor(m => m.State, new { @class = "form-control", placeholder = "NY" })
+                                @Html.ValidationMessageFor(m => m.State, "", new { @class = "text-danger small" })
+                            </div>
+                            <!-- Postal Code -->
+                            <div class="col-md-6 mb-3">
+                                @Html.LabelFor(m => m.PostalCode, "Postal Code", new { @class = "form-label" })
+                                @Html.TextBoxFor(m => m.PostalCode, new { @class = "form-control", placeholder = "10001" })
+                                @Html.ValidationMessageFor(m => m.PostalCode, "", new { @class = "text-danger small" })
+                            </div>
+                            <!-- Country -->
+                            <div class="col-md-6 mb-3">
+                                @Html.LabelFor(m => m.Country, new { @class = "form-label" })
+                                @Html.TextBoxFor(m => m.Country, new { @class = "form-control", placeholder = "United States" })
+                                @Html.ValidationMessageFor(m => m.Country, "", new { @class = "text-danger small" })
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-3">
+                            <a href="@Url.Action("Index", "ShoppingCart")" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left"></i> Back to Cart
+                            </a>
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="bi bi-check-circle"></i> Place Order
+                            </button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0">Order Summary</h5>
+                </div>
+                <div class="card-body">
+                    @if (Model?.Cart?.Items != null && Model.Cart.Items.Any())
+                    {
+                        <!-- Items List -->
+                        <div class="mb-3">
+                            @foreach (var item in Model.Cart.Items)
+                            {
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <div class="d-flex align-items-center">
+                                        @if (!string.IsNullOrEmpty(item.ImageUrl))
+                                        {
+                                            <img src="@item.ImageUrl"
+                                                 alt="@item.Name"
+                                                 style="width: 40px; height: 40px; object-fit: cover;"
+                                                 class="rounded me-2" />
+                                        }
+                                        <div>
+                                            <strong class="d-block">@item.Name</strong>
+                                            <small class="text-muted">Qty: @item.Quantity × @item.Price.ToString("C")</small>
+                                        </div>
+                                    </div>
+                                    <strong>@((item.Price * item.Quantity).ToString("C"))</strong>
+                                </div>
+                            }
+                        </div>
+
+                        <hr />
+
+                        <!-- Total -->
+                        <div class="d-flex justify-content-between mb-3">
+                            <h5>Total:</h5>
+                            <h5 class="text-success">@Model.Total.ToString("C")</h5>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-warning">
+                            Your cart is empty.
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

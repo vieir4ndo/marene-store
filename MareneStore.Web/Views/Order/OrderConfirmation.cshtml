@@ -1,0 +1,125 @@
+﻿@{
+    ViewBag.Title = "Order Confirmation";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-body text-center p-5">
+                    <!-- Success Icon -->
+                    <div class="mb-4">
+                        <i class="bi bi-check-circle-fill text-success" style="font-size: 5rem;"></i>
+                    </div>
+
+                    <!-- Success Message -->
+                    <h2 class="text-success mb-3">Order Placed Successfully! 🎉</h2>
+                    <p class="lead mb-4">
+                        Thank you for your purchase! Your order has been received and is being processed.
+                    </p>
+
+                    <!-- Order Information -->
+                    <div class="alert alert-info">
+                        <h5 class="mb-3">Order Details</h5>
+                        <div class="row">
+                            <div class="col-md-6 text-start">
+                                <p class="mb-2">
+                                    <strong>Order ID:</strong><br/>
+                                    <code>@ViewBag.OrderId</code>
+                                </p>
+                                <p class="mb-2">
+                                    <strong>Order Date:</strong><br/>
+                                    @Convert.ToDateTime(ViewBag.OrderDate).ToString("MMMM dd, yyyy HH:mm")
+                                </p>
+                            </div>
+                            <div class="col-md-6 text-start">
+                                <p class="mb-2">
+                                    <strong>Status:</strong><br/>
+                                    <span class="badge bg-primary">@ViewBag.Status</span>
+                                </p>
+                                <p class="mb-0">
+                                    <strong>Total Amount:</strong><br/>
+                                    <span class="text-success fs-4">@Convert.ToDecimal(ViewBag.TotalAmount).ToString("C")</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- What's Next -->
+                    <div class="card bg-light mt-4">
+                        <div class="card-body">
+                            <h5 class="card-title">📧 What happens next?</h5>
+                            <ul class="list-unstyled text-start mb-0">
+                                <li class="mb-2">
+                                    <i class="bi bi-check-circle text-success"></i> 
+                                    You will receive a confirmation email shortly
+                                </li>
+                                <li class="mb-2">
+                                    <i class="bi bi-check-circle text-success"></i> 
+                                    We'll notify you when your order status changes
+                                </li>
+                                <li class="mb-2">
+                                    <i class="bi bi-check-circle text-success"></i> 
+                                    Track your order status in "My Orders"
+                                </li>
+                                <li class="mb-0">
+                                    <i class="bi bi-check-circle text-success"></i> 
+                                    We'll send shipping information when your order is dispatched
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="mt-5">
+                        <a href="@Url.Action("OrderIndex", "Order")" class="btn btn-primary btn-lg me-2">
+                            <i class="bi bi-list-ul"></i> View My Orders
+                        </a>
+                        <a href="@Url.Action("ShopIndex", "Product")" class="btn btn-outline-secondary btn-lg">
+                            <i class="bi bi-shop"></i> Continue Shopping
+                        </a>
+                    </div>
+
+                    <!-- Support Info -->
+                    <div class="mt-4">
+                        <small class="text-muted">
+                            Need help? <a href="@Url.Action("Contact", "Home")">Contact our support team</a>
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Information -->
+            <div class="text-center mt-4">
+                <p class="text-muted">
+                    <i class="bi bi-info-circle"></i> 
+                    Please save your order ID: <strong>@ViewBag.OrderId</strong> for future reference.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .bi-check-circle-fill {
+        animation: scaleIn 0.5s ease-in-out;
+    }
+
+    @@keyframes scaleIn {
+        from {
+            transform: scale(0);
+            opacity: 0;
+        }
+        to {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    code {
+        font-size: 0.9rem;
+        padding: 2px 6px;
+        background-color: #f8f9fa;
+        border-radius: 4px;
+    }
+</style>
