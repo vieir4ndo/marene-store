@@ -1,9 +1,13 @@
-using MareneStore.Domain.Exceptions;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using MareneStore.Domain.Entities;
+using MareneStore.Domain.Exceptions;
+using MareneStore.Web.Models;
+using static MareneStore.Web.Models.ShoppingCart;
 
 namespace MareneStore.Web
 {
@@ -16,6 +20,10 @@ namespace MareneStore.Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             UnityConfig.RegisterComponents();
+            ModelBinders.Binders.Add(
+                    typeof(List<ShoppingCartItem>),
+                    new ShoppingCartModelBinder()
+                );
         }
 
         protected void Application_Error()

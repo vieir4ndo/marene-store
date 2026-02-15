@@ -32,6 +32,11 @@
                         <li>@Html.ActionLink("Product", "ShopIndex", "Product", new { area = "" }, new { @class = "nav-link" })</li>
                         <li>@Html.ActionLink("Orders", "OrderIndex", "Order", new { area = "" }, new { @class = "nav-link" })</li>
 
+                        if (User.Identity.IsAuthenticated && !User.IsInRole("Admin"))
+                        {
+                            <li>@Html.ActionLink("Shopping Cart", "Index", "ShoppingCart", new { area = "" }, new { @class = "nav-link" })</li>
+                        }
+
                     }
                 </ul>
                 @Html.Partial("_LoginPartial")
