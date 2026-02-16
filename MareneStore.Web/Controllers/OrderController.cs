@@ -230,5 +230,32 @@ namespace MareneStore.Web.Controllers
                 return RedirectToAction("OrderIndex");
             }
         }
+
+        [HttpGet]
+        public async Task<ActionResult> Details(Guid orderId)
+        {
+            try
+            {
+                var order = await _orderService.GetByIdAsync(orderId);
+
+                if (order == null)
+                {
+                    return HttpNotFound();
+                }
+
+                if (!User.IsInRole("Admin") && order.UserEmail != User.Identity.Name)
+                {
+                    TempData["ToastError"] = "You don't have permission to view this order.";
+                    return RedirectToAction("OrderIndex");
+                }
+
+                return View(order);
+            }
+            catch (Exception ex)
+            {
+                TempData["ToastError"] = "An error occurred while loading the order details.";
+                return RedirectToAction("OrderIndex");
+            }
+        }
     }
 }

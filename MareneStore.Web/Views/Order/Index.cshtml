@@ -28,6 +28,7 @@
                     <td>@item.UserShippingAddress</td>
                     <td>
                         <a href="@Url.Action("EditStatus", "Order", new { orderId = item.Id })" class="btn btn-primary btn-sm">Edit Status</a>
+                        <a href="@Url.Action("Details", "Order", new { orderId = @item.Id })" class="btn btn-primary btn-sm">View Details</a>
                     </td>
                 </tr>
             }

@@ -9,6 +9,8 @@ namespace MareneStore.Application.Dtos
         public Guid ProductId { get; set; }
         public int Quantity { get; set; }
         public decimal UnitPrice { get; set; }
+        public string ProductImageUrl { get; set; }
+        public string ProductName { get; set; }
 
         public static OrderDetailDto FromEntity(OrderDetail orderDetail)
         {
@@ -17,7 +19,9 @@ namespace MareneStore.Application.Dtos
                 Id = orderDetail.Id,
                 ProductId = orderDetail.ProductId,
                 Quantity = orderDetail.Quantity,
-                UnitPrice = orderDetail.UnitPrice
+                UnitPrice = orderDetail.UnitPrice,
+                ProductImageUrl = orderDetail.Product.ImageUrl,
+                ProductName = orderDetail.Product.Name
             };
         }
     }
