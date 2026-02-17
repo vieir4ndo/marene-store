@@ -5,6 +5,7 @@
 
 <div class="container">
     <h1 class="mb-4">Product List</h1>
+
     <div class="mb-3">
         <a href="@Url.Action("Create", "Product")" class="btn btn-primary">Create New Product</a>
     </div>
@@ -21,6 +22,12 @@
             </tr>
         </thead>
         <tbody>
+            @if (Model.Items == null || Model.Items.Count == 0)
+            {
+                <tr>
+                    <td colspan="6">There are no products here</td>
+                </tr>
+            }
             @foreach (var item in Model.Items)
             {
                 <tr>
@@ -31,6 +38,7 @@
                     <td>@(item.IsActive ? "Active" : "Inactive")</td>
                     <td>
                         <a href="@Url.Action("Edit", "Product", new { id = item.Id })" class="btn btn-primary btn-sm">Edit</a>
+                        <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete('@item.Id', '@item.Name')">Delete</button>
                     </td>
                 </tr>
             }
@@ -59,9 +67,44 @@
     </div>
 </div>
 
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+                <!-- Added data-bs-dismiss for Bootstrap 5 compatibility -->
+                <button type="button" class="btn-close" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete <strong id="productNamePlaceholder"></strong>?</p>
+                <div class="alert alert-warning">
+                    <strong>Warning:</strong> We do not recommend deleting a product since this will delete it from all the orders in the project, including past finalized orders.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <!-- Added data-bs-dismiss for Bootstrap 5 compatibility -->
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" data-bs-dismiss="modal">Cancel</button>
+                <form id="deleteForm" method="post" action="@Url.Action("Delete", "Product")">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="id" id="productIdInput" />
+                    <button type="submit" class="btn btn-danger">Delete Product</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     function changePageSize(pageSize) {
         const url = '@Url.Action("Index", "Product")';
         window.location.href = `${url}?pageNumber=1&pageSize=${pageSize}`;
+    }
+
+    function confirmDelete(id, name) {
+        document.getElementById('productNamePlaceholder').innerText = name;
+        document.getElementById('productIdInput').value = id;
+        $('#deleteModal').modal('show');
     }
 </script>

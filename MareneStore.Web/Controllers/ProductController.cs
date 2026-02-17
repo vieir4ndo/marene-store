@@ -136,5 +136,16 @@ namespace MareneStore.Web.Controllers
             TempData["Message"] = "Product created successfully.";
             return RedirectToAction("Index");
         }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> Delete(Guid id)
+        {
+            await _productService.DeleteProductAsync(id);
+            TempData["Message"] = "Product deleted successfully.";
+            return RedirectToAction("Index");
+        }
     }
 }

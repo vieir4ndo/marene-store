@@ -6,6 +6,12 @@
 <div class="container">
     <h1 class="mb-4">Items to Buy</h1>
     <div class="row">
+        @if (Model.Items == null || Model.Items.Count == 0)
+        {
+            <div>
+                <p>There are no itens here</p>
+            </div>
+        }
         @foreach (var item in Model.Items)
         {
             <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 d-flex justify-content-center">

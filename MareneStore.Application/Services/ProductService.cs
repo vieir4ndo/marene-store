@@ -19,6 +19,18 @@ namespace MareneStore.Application.Services
             _productRepository = productRepository;
         }
 
+        public async Task DeleteProductAsync(Guid id)
+        {
+            var product = await _productRepository.GetByIdAsync(id);
+            if (product == null)
+            {
+                throw new NotFoundException();
+            }
+
+            _productRepository.Remove(product);
+            await _productRepository.SaveChangesAsync();
+        }
+
         public async Task<ProductDto> CreateProductAsync(ProductDto product)
         {
             var productEntity = new Product(

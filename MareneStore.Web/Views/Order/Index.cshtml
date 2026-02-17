@@ -18,6 +18,12 @@
             </tr>
         </thead>
         <tbody>
+            @if (Model.Items == null || Model.Items.Count == 0)
+            {
+                <tr>
+                    <td colspan="6">There are no orders here</td>
+                </tr>
+            }
             @foreach (var item in Model.Items)
             {
                 <tr>
@@ -28,7 +34,7 @@
                     <td>@item.UserShippingAddress</td>
                     <td>
                         <a href="@Url.Action("EditStatus", "Order", new { orderId = item.Id })" class="btn btn-primary btn-sm">Edit Status</a>
-                        <a href="@Url.Action("Details", "Order", new { orderId = @item.Id })" class="btn btn-primary btn-sm">View Details</a>
+                        <a href="@Url.Action("Details", "Order", new { orderId = @item.Id })" class="btn btn-secondary btn-sm">View Details</a>
                     </td>
                 </tr>
             }

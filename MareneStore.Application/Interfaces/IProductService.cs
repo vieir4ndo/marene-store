@@ -11,6 +11,7 @@ namespace MareneStore.Application.Interfaces
         Task<ProductDto> GetByIdAsync(Guid id);
         Task<(List<ProductDto>, int)> GetAllAsync(int pageNumber = 1, int pageSize = 10);
         Task<ProductDto> UpdateProductAsync(ProductDto product);
+        Task DeleteProductAsync(Guid id);
         Task<List<ProductDto>> GetActiveProductsByIdsAsync(List<Guid> ids);
         Task<List<ProductDto>> GetProductsByIdsAsync(List<Guid> ids);
     }
