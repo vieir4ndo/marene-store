@@ -81,7 +81,7 @@ namespace MareneStore.Api.Controllers
 
             return Ok(ApiResponse.CreateSuccess(new TokenResponse()
             {
-                Token = tokenString,
+                Token = "Bearer " + tokenString,
                 Expiration = token.ValidTo
             }));
         }
