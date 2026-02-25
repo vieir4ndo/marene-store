@@ -1,3 +1,5 @@
+using System;
+using System.Web;
 using System.Web.Http;
 
 namespace MareneStore.Api
@@ -8,6 +10,16 @@ namespace MareneStore.Api
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
             UnityConfig.RegisterComponents();
+        }
+
+        protected void Application_BeginRequest(object sender, EventArgs e)
+        {
+            var path = HttpContext.Current.Request.Url.AbsolutePath.ToLower();
+
+            if (path == "/" || string.IsNullOrEmpty(path))
+            {
+                HttpContext.Current.Response.Redirect("~/swagger");
+            }
         }
     }
 }
